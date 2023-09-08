@@ -14,7 +14,7 @@ const Container: Children = (props) => {
         )
       }}
     >
-      <main class='overflow-x-hidden'>{props.children}</main>
+      <main>{props.children}</main>
     </ErrorBoundary>
   )
 }

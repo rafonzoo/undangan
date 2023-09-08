@@ -152,13 +152,12 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         style={{
           height: '100vh',
           perspective: '1px',
-          'perspective-origin': '0 0',
+          'perspective-origin': 'top left',
           '-webkit-overflow-scrolling': 'touch',
         }}
       >
         {/* Cover */}
         <div
-          class='relative -z-10'
           style={{
             height: 'inherit',
             'transform-origin': 'top left',
@@ -172,7 +171,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         </div>
 
         {/* Content */}
-        <div class='bg-white dark:bg-black'>
+        <div class='relative z-10 bg-white dark:bg-black'>
           <div class='mx-auto max-w-[425px]'>
             <div class='flex flex-col safearea'>
               <For each={stateEntities()}>
