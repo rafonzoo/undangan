@@ -31,6 +31,7 @@ module.exports = {
         // hero: '0.0125em',
       },
       spacing: {
+        inherit: 'inherit'
         // 21: 84,
       },
       screens: {

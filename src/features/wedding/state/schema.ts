@@ -86,13 +86,13 @@ const weddingImageClassType = z.record(
   z.string().optional()
 )
 
-export const weddingImageType = invitationImageType
+export const weddingImageEntityType = invitationImageType
   .partial({ url: true })
   .extend({ class: weddingImageClassType.optional() })
 
-export const weddingCopyType = z.object({
+export const weddingTitleEntityType = z.object({
   class: z.string().optional(),
-  section: invitationSectionType.keyof(),
+  title: invitationSectionType.keyof(),
 })
 
 export const weddingSectionImageType = invitationEntityType.pick({
@@ -102,7 +102,4 @@ export const weddingSectionImageType = invitationEntityType.pick({
 
 export const weddingSectionTextType = invitationEntityType
   .pick({ text: true })
-  .extend({
-    color: z.string().nullable(),
-    // show: z.function(),
-  })
+  .extend({ color: z.string().nullable() })

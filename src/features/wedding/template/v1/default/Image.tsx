@@ -1,13 +1,13 @@
 import { type FC } from '@app/types'
 import { createMutable } from 'solid-js/store'
 import { lazy, onMount } from 'solid-js'
-import { weddingImageType } from '@wedding/state/schema'
+import { weddingImageEntityType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import BackgroundImage from '@app/components/BackgroundImage'
 
-const WeddingImageDefault: FC<typeof weddingImageType> = (arg) => {
-  const { props } = useProps(arg, weddingImageType)
+const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
+  const { props } = useProps(arg, weddingImageEntityType)
   const state = createMutable({
     hasSibling: false,
     hasArrow: false,

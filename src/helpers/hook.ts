@@ -18,36 +18,6 @@ import { check } from '@app/helpers/utils'
 
 type HistoryOption = Omit<NavigateOptions, 'replace'>
 
-export const useIntersection = (opt?: Infer<typeof useIntersectionType>) => {
-  const [element, setElement] = createSignal<HTMLElement | null>(null)
-  const [isIntersecting, setIntersect] = createSignal(false)
-
-  onMount(() => {
-    const target = element()
-    const option = check(useIntersectionType.optional(), opt)
-
-    const root = !!option?.rootId
-      ? target?.closest(`#${option.rootId}`)
-      : document
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIntersect(true)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { root, ...option }
-    )
-
-    if (target) observer.observe(target)
-  })
-
-  return { isIntersecting, setElement }
-}
-
 export const useCommonProps = () => {
   const navigate = useNavigate()
 
@@ -97,4 +67,34 @@ export const useQueryParam = <T extends Type, N extends Type>(opt: {
     query: check(opt.query, queryValue),
     setQuery: setQuery as SetQuery,
   }
+}
+
+export const useIntersection = (opt?: Infer<typeof useIntersectionType>) => {
+  const [element, setElement] = createSignal<HTMLElement | null>(null)
+  const [isIntersecting, setIntersect] = createSignal(false)
+
+  onMount(() => {
+    const target = element()
+    const option = check(useIntersectionType.optional(), opt)
+
+    const root = !!option?.rootId
+      ? target?.closest(`#${option.rootId}`)
+      : document
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIntersect(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { root, ...option }
+    )
+
+    if (target) observer.observe(target)
+  })
+
+  return { isIntersecting, setElement }
 }
