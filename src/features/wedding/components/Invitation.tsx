@@ -10,7 +10,7 @@ import {
   weddingSectionImageType,
   weddingSectionTextType,
 } from '@wedding/state/schema'
-import { check, entries } from '@app/helpers/utils'
+import { check, entries, isIOS } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
@@ -166,7 +166,10 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
     <Suspense fallback={<p>Loading...</p>}>
       <div
         id='scroller'
-        class='h-screen min-h-[525px] overflow-y-auto overflow-x-hidden'
+        class={css('min-h-[525px] overflow-y-auto overflow-x-hidden', {
+          'fixed left-0 top-0 h-full w-full': isIOS(),
+          'h-screen': !isIOS(),
+        })}
         style={{
           perspective: '1px',
           'perspective-origin': 'top left',
@@ -189,9 +192,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
           class='flex origin-top-left flex-col justify-center safearea'
           style={{
             'margin-top': `-${state.coverHeight}px`,
-            transform: `scale(2)translate3d(0,calc(50vh - ${
-              state.coverHeight / 2
-            }px),-1px)`,
+            transform: `scale(2)translate3d(0,calc(50vh - ${state.coverHeight / 2}px),-1px)`, // prettier-ignore
           }}
         >
           <div class='mx-auto w-[233px]'>

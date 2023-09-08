@@ -1,8 +1,6 @@
 import { type Infer, type Nullish, type Type } from '@app/types'
 
-export const isEmpty = (val: unknown) => typeof val === 'undefined'
-
-export const isNotFound = (val: unknown): val is null => val === null
+export const isIOS = () => !!navigator.userAgent.match(/iPhone|iPod|iPad/)
 
 export const delay = (timer = 1000): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, timer))
