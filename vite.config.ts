@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   build: {
     chunkSizeWarningLimit: 1000,
-    target: 'esnext',
+    target: 'es2015',
     minify: 'terser',
     terserOptions: {
       format: {
