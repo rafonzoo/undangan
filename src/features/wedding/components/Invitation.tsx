@@ -10,7 +10,7 @@ import {
   weddingSectionImageType,
   weddingSectionTextType,
 } from '@wedding/state/schema'
-import { check, entries, isIOS } from '@app/helpers/utils'
+import { check, entries } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
@@ -167,8 +167,9 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       <div
         id='scroller'
         class={css('min-h-[525px] overflow-y-auto overflow-x-hidden', {
-          'fixed left-0 top-0 h-full w-full': isIOS(),
-          'h-screen': !isIOS(),
+          'fixed left-0 top-0 h-full w-full': true,
+          // 'fixed left-0 top-0 h-full w-full': isIOS(),
+          // 'h-screen': !isIOS(),
         })}
         style={{
           perspective: '1px',
@@ -178,7 +179,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       >
         {/* Cover */}
         <div
-          class='h-screen min-h-[inherit] origin-top-left'
+          class='h-[inherit] min-h-[inherit] origin-top-left'
           style={{ transform: 'translateZ(-2px) scale(3)' }}
         >
           <BackgroundImage
