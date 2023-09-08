@@ -147,10 +147,10 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <div
-        class='overflow-y-auto overflow-x-hidden'
+      <main
+        id='main'
+        class='fixed h-full w-full overflow-y-auto overflow-x-hidden'
         style={{
-          height: '100vh',
           perspective: '1px',
           'perspective-origin': 'top left',
           '-webkit-overflow-scrolling': 'touch',
@@ -161,7 +161,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
           style={{
             height: 'inherit',
             'transform-origin': 'top left',
-            transform: 'translateZ(-1px) scale(2)',
+            transform: 'translateZ(-2px) scale(3)',
           }}
         >
           <BackgroundImage
@@ -204,7 +204,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </Suspense>
   )
 }

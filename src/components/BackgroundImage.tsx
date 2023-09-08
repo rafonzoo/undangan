@@ -1,21 +1,22 @@
-import { type Children } from '@app/types'
+import { type Children, type Infer, type SX } from '@app/types'
 import { createMutable } from 'solid-js/store'
-import { type JSX, createEffect, splitProps } from 'solid-js'
+import { createEffect, splitProps } from 'solid-js'
+import { useIntersectionType } from '@app/state/schema'
+import { check } from '@app/helpers/utils'
 import { useIntersection } from '@app/helpers/hook'
 
-type BackgroundImageProps = JSX.IntrinsicElements['div'] & {
+type BackgroundImageProps = SX<'div'> & {
   url: string
-  offset?: string
+  observer?: Infer<typeof useIntersectionType>
   onready?: () => void
 }
 
 const BackgroundImage: Children<BackgroundImageProps> = (arg) => {
+  const [local, props] = splitProps(arg, ['url', 'onready', 'observer'])
   const state = createMutable({ done: false, url: '' })
-  const [local, props] = splitProps(arg, ['url', 'offset', 'onready'])
-
-  const { isIntersecting, setElement } = useIntersection({
-    rootMargin: local.offset ?? '0px 0px 150px 0px',
-  })
+  const { isIntersecting, setElement } = useIntersection(
+    check(useIntersectionType.optional(), local.observer)
+  )
 
   createEffect(() => {
     const img = new Image()

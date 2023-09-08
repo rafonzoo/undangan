@@ -13,24 +13,34 @@ import {
   useParams,
   useSearchParams,
 } from '@solidjs/router'
+import { useIntersectionType } from '@app/state/schema'
 import { check } from '@app/helpers/utils'
 
 type HistoryOption = Omit<NavigateOptions, 'replace'>
 
-export const useIntersection = (opt?: IntersectionObserverInit) => {
+export const useIntersection = (opt?: Infer<typeof useIntersectionType>) => {
   const [element, setElement] = createSignal<HTMLElement | null>(null)
   const [isIntersecting, setIntersect] = createSignal(false)
 
   onMount(() => {
     const target = element()
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIntersect(true)
-          observer.unobserve(entry.target)
-        }
-      })
-    }, opt)
+    const option = check(useIntersectionType.optional(), opt)
+
+    const root = !!option?.rootId
+      ? target?.closest(`#${option.rootId}`)
+      : document
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIntersect(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { root, ...option }
+    )
 
     if (target) observer.observe(target)
   })

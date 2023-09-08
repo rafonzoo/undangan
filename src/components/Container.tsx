@@ -14,7 +14,7 @@ const Container: Children = (props) => {
         )
       }}
     >
-      <main>{props.children}</main>
+      {props.children}
     </ErrorBoundary>
   )
 }

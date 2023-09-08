@@ -1,6 +1,8 @@
 import { type z } from 'zod'
 import { type Component, type JSX } from 'solid-js'
 
+type El = JSX.IntrinsicElements
+
 export type Nullable<T> = T | null
 
 export type Nullish<T> = Nullable<T | undefined>
@@ -14,3 +16,5 @@ export type Children<T = {}> = Component<{ children?: JSX.Element } & T>
 export type Func<T = unknown> = (...arg: unknown[]) => T
 
 export type FC<T extends Type> = Component<Infer<T>>
+
+export type SX<T extends keyof El> = El[T]
