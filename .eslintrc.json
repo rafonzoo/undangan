@@ -1,0 +1,70 @@
+{
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["@typescript-eslint", "import", "unused-imports"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "semi": ["warn", "never"],
+    "unused-imports/no-unused-imports": ["warn", { "vars": "local" }],
+
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "vars": "local" }],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports"
+      }
+    ],
+    "import/no-duplicates": ["warn"],
+    "import/no-anonymous-default-export": "off",
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "allowSeparatedGroups": false
+      }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "groups": ["type", "builtin", "external", ["internal", "sibling"]],
+        "newlines-between": "never",
+        "pathGroups": [
+          {
+            "pattern": "solidjs",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "**/pages/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "**/types",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "**/components/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "**/template",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["internal", "type", "sibling"],
+        "warnOnUnassignedImports": false,
+        "alphabetize": { "order": "desc" }
+      }
+    ]
+  }
+}

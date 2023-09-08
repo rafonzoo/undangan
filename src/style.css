@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Good Dog';
+  font-display: swap;
+  src:
+    url('/fonts/good-dog/GoodDog.woff2') format('woff2'),
+    url('/fonts/good-dog/GoodDog.woff') format('woff');
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+}
