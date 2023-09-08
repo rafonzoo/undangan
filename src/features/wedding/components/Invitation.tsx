@@ -148,11 +148,12 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <div
-        class='overflow-x overflow-y-auto'
+        class='overflow-y-auto overflow-x-hidden'
         style={{
           height: '100vh',
           perspective: '1px',
           'perspective-origin': '0 0',
+          '-webkit-overflow-scrolling': 'touch',
         }}
       >
         {/* Cover */}
@@ -171,7 +172,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         </div>
 
         {/* Content */}
-        <div class='overflow-hidden bg-white dark:bg-black'>
+        <div class='bg-white dark:bg-black'>
           <div class='mx-auto max-w-[425px]'>
             <div class='flex flex-col safearea'>
               <For each={stateEntities()}>
