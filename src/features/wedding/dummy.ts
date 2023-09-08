@@ -57,7 +57,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'message',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'portrait',
             caption: {
               text: 'We are\nmarried!!',
@@ -72,7 +72,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'bride',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'portrait',
             caption: {
               text: 'Yossy',
@@ -87,7 +87,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'groom',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'portrait',
             caption: {
               text: 'Rafa',
@@ -99,7 +99,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-intro-5',
           text: null,
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'right',
             position: '50% 70%',
@@ -118,7 +118,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'message',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'center',
             caption: {
@@ -144,7 +144,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'message',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'right',
             caption: {
@@ -160,7 +160,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             icon: 'message',
           },
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'left',
             caption: {
@@ -181,7 +181,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-story-4',
           text: null,
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'right',
             caption: null,
@@ -193,7 +193,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-comment-1',
           text: null,
           image: {
-            url: '/images/example.webp',
+            url: '/images/example.jpg',
             orientation: 'portrait',
             caption: {
               text: 'Mohon doa\nrestu yaa',
@@ -224,7 +224,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'left',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -238,7 +238,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'left',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -252,7 +252,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'left',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -263,7 +263,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'right',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //     ],
@@ -279,7 +279,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'left',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -303,7 +303,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'right',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -317,7 +317,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'left',
 //           placement: 'before',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //       {
@@ -331,7 +331,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
 //           placement: 'right',
 //           placement: 'after',
 //           caption: null,
-//           url: '/images/example.webp',
+//           url: '/images/example.jpg',
 //         },
 //       },
 //     ],

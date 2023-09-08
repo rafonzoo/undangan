@@ -63,7 +63,7 @@ const WeddingImageDefault: FC<typeof weddingImageType> = (arg) => {
           url={state.url.frame}
           style={{ 'background-size': 'contain' }}
           onready={() => (state.counter += 1)}
-          observer={{ rootMargin: '50%', rootId: 'main' }}
+          observer={{ rootMargin: '50%', rootId: 'scroller' }}
           class={css({
             'pointer-events-none relative z-10 bg-no-repeat': true,
             'pt-[131.295%]': isPortrait(),
@@ -75,7 +75,7 @@ const WeddingImageDefault: FC<typeof weddingImageType> = (arg) => {
           url={state.url.shadow}
           style={{ 'background-size': '100%' }}
           onready={() => (state.counter += 1)}
-          observer={{ rootMargin: '50%', rootId: 'main' }}
+          observer={{ rootMargin: '50%', rootId: 'scroller' }}
           class={css({
             'pointer-events-none absolute': true,
             'left-0 top-0 bg-no-repeat': true,
@@ -92,9 +92,9 @@ const WeddingImageDefault: FC<typeof weddingImageType> = (arg) => {
           })}
         >
           <BackgroundImage
-            url={props.url ?? '/images/example.webp'}
+            url={props.url ?? '/images/example.jpg'}
             onready={() => (state.counter += 1)}
-            observer={{ rootMargin: '50%', rootId: 'main' }}
+            observer={{ rootMargin: '50%', rootId: 'scroller' }}
             style={{ 'background-position': props.position ?? '50% 50%' }}
             class={css('h-full w-full rounded bg-cover', props.class?.image)}
           />

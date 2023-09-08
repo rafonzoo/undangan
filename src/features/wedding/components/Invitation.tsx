@@ -1,6 +1,7 @@
 import { type FC, type Infer } from '@app/types'
 import { createMutable } from 'solid-js/store'
-import { For, Suspense, createMemo, lazy } from 'solid-js'
+import { For, Suspense, createMemo, lazy, onMount } from 'solid-js'
+import CoupleName from '@wedding/template/v1/default/title/cover.svg'
 import {
   invitationType,
   weddingCopyType,
@@ -21,6 +22,10 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
   const section = createMutable({
     matcher: /section-intro-[2|3]/,
     special: 'section-intro-2' as const,
+  })
+
+  const state = createMutable({
+    coverHeight: 0,
   })
 
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
@@ -145,11 +150,23 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
     )
   }
 
+  let cover: HTMLElement
+
+  onMount(() => {
+    const resizer = new ResizeObserver((ent) => {
+      for (const entry of ent) {
+        state.coverHeight = entry.borderBoxSize[0].blockSize
+      }
+    })
+
+    resizer.observe(cover)
+  })
+
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <main
-        id='main'
-        class='fixed h-full w-full overflow-y-auto overflow-x-hidden'
+      <div
+        id='scroller'
+        class='h-screen min-h-[525px] overflow-y-auto overflow-x-hidden'
         style={{
           perspective: '1px',
           'perspective-origin': 'top left',
@@ -158,16 +175,29 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       >
         {/* Cover */}
         <div
-          style={{
-            height: 'inherit',
-            'transform-origin': 'top left',
-            transform: 'translateZ(-2px) scale(3)',
-          }}
+          class='h-screen min-h-[inherit] origin-top-left'
+          style={{ transform: 'translateZ(-2px) scale(3)' }}
         >
           <BackgroundImage
             class='absolute h-full w-full bg-cover bg-center'
-            url='/images/example.webp'
+            url='/images/example.jpg'
           />
+        </div>
+
+        <div
+          ref={(ref) => (cover = ref)}
+          class='flex origin-top-left flex-col justify-center safearea'
+          style={{
+            'margin-top': `-${state.coverHeight}px`,
+            transform: `scale(2)translate3d(0,calc(50vh - ${
+              state.coverHeight / 2
+            }px),-1px)`,
+          }}
+        >
+          <div class='mx-auto w-[233px]'>
+            <CoupleName />
+          </div>
+          <div class='h-[222px] w-full' />
         </div>
 
         {/* Content */}
@@ -204,7 +234,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </Suspense>
   )
 }
