@@ -14,7 +14,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       <div
         id='scroller'
         class={css('min-h-[525px] overflow-y-auto overflow-x-hidden', {
-          'fixed left-0 top-0 h-full w-full': true,
+          'translate-z-0 fixed left-0 top-0 h-full w-full': true,
           // 'h-screen': !isIOS(), // Fix jumping content in android.
         })}
         style={{
