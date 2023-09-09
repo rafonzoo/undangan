@@ -34,7 +34,11 @@ const TemplateText: FC<typeof templateTextType> = (args) => {
       })}
     >
       <div class='mb-4'>
-        <span class={css('block h-9 w-9', props.color)}>
+        <span
+          class={css('block h-9 w-9', props.color, {
+            'translate-y-1': icon === 'message',
+          })}
+        >
           <IconComponent />
         </span>
       </div>

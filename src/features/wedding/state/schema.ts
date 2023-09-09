@@ -44,6 +44,10 @@ export const invitationType = z.object({
   guest: guestType,
   template: z.enum(['default']),
   section: invitationSectionType,
+  cover: invitationImageType
+    .pick({ url: true, position: true })
+    .extend({ size: z.string().optional() })
+    .optional(),
 })
 
 const weddingPageType = z.object({

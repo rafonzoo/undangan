@@ -7,7 +7,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{ts,tsx,svg}'],
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -18,7 +18,8 @@ module.exports = {
       fontSize: {
         // small: ['11px', '15px'],
         // caption: ['12px', '16px'],
-        base: ['17px', '24px'],
+        base: ['16px', '24px'],
+        elevated: ['18px', '25px'],
         lead: ['20px', '26px'],
         good: ['24px', '20px']
         // heading: ['24px', '28px'],
@@ -39,6 +40,15 @@ module.exports = {
         // sm: '525px',
         // md: '768px',
       },
+      keyframes: {
+        scrolldown: {
+          '0%': { backgroundPosition: '-204px 0' },
+          '100%': { backgroundPosition: '204px 0' },
+        }
+      },
+      animation: {
+        scrolldown: 'scrolldown 3s infinite',
+      }
     },
   },
   plugins: [

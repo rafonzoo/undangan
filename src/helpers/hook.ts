@@ -46,7 +46,7 @@ export const useResource = <S, R = unknown>(
 
 export const useProps = <T extends Type>(props: Infer<T>, zod: Nullish<T>) => {
   createEffect(() => check(zod, props))
-  return { props: check(zod, props) }
+  return { props }
 }
 
 export const useQueryParam = <T extends Type, N extends Type>(opt: {

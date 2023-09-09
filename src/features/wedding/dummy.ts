@@ -48,6 +48,11 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
     status: 'paid',
     guest: 'Alif Kahar',
     template: 'default',
+    cover: {
+      url: '/images/example.jpg',
+      position: '50% 50%',
+      size: '200%',
+    },
     section: {
       intro: [
         {
