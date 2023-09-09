@@ -18,9 +18,9 @@ module.exports = {
       fontSize: {
         // small: ['11px', '15px'],
         // caption: ['12px', '16px'],
-        base: ['16px', '24px'],
-        elevated: ['18px', '25px'],
-        lead: ['20px', '26px'],
+        base: ['17px', '24px'],
+        elevated: ['19px', '25px'],
+        lead: ['21px', '26px'],
         good: ['24px', '20px']
         // heading: ['24px', '28px'],
         // hero: ['30px', '34px'],

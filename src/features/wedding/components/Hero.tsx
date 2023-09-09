@@ -33,20 +33,18 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   )
 
   onMount(() => {
-    const wrapperWatcher = new ResizeObserver((ent) => {
+    const observer = new ResizeObserver((ent) => {
       for (const entry of ent) {
-        height.wrapper = entry.borderBoxSize[0].blockSize
+        if (entry.target === heroContent) {
+          height.content = entry.borderBoxSize[0].blockSize
+        } else {
+          height.wrapper = entry.borderBoxSize[0].blockSize
+        }
       }
     })
 
-    const contentWatcher = new ResizeObserver((ent) => {
-      for (const entry of ent) {
-        height.content = entry.borderBoxSize[0].blockSize
-      }
-    })
-
-    wrapperWatcher.observe(heroWrapper)
-    contentWatcher.observe(heroContent)
+    observer.observe(heroWrapper)
+    observer.observe(heroContent)
   })
 
   return (
@@ -79,7 +77,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
           transform: `translate3d(0, ${height.wrapper - height.content}px, -1px) scale(2)`, // prettier-ignore
         }}
       >
-        <div class='mx-auto' style={{ width: 'min(70%, 256px)' }}>
+        <div class='mx-auto' style={{ width: 'min(75%, 256px)' }}>
           <HeroCoupleName />
         </div>
         <div class='mb-12 flex w-full flex-col text-center'>

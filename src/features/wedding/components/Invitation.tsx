@@ -17,7 +17,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         class={css(
           'fixed left-0 top-0 min-h-[525px] w-full overflow-y-auto overflow-x-hidden',
           {
-            'h-screen': !isIOS(),
+            'h-screen': !isIOS(), // <-- Android fix.
             'h-full': isIOS(),
           }
         )}
