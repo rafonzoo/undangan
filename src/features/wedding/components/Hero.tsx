@@ -15,8 +15,9 @@ const weddingHeroType = z.object({
 
 const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const { props } = useProps(args, weddingHeroType)
-  const state = createMutable({ height: 0 })
+  const height = createMutable({ wrapper: 0, content: 0 })
 
+  let heroWrapper: HTMLElement
   let heroContent: HTMLElement
 
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
@@ -32,18 +33,26 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   )
 
   onMount(() => {
-    const resizer = new ResizeObserver((ent) => {
+    const wrapperWatcher = new ResizeObserver((ent) => {
       for (const entry of ent) {
-        state.height = entry.borderBoxSize[0].blockSize
+        height.wrapper = entry.borderBoxSize[0].blockSize
       }
     })
 
-    resizer.observe(heroContent)
+    const contentWatcher = new ResizeObserver((ent) => {
+      for (const entry of ent) {
+        height.content = entry.borderBoxSize[0].blockSize
+      }
+    })
+
+    wrapperWatcher.observe(heroWrapper)
+    contentWatcher.observe(heroContent)
   })
 
   return (
     <>
       <div
+        ref={(ref) => (heroWrapper = ref)}
         class='relative h-inherit min-h-[inherit] origin-top-left'
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
@@ -66,8 +75,8 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         ref={(ref) => (heroContent = ref)}
         class='relative z-10 flex origin-top-left flex-col justify-center safearea'
         style={{
-          'margin-top': `-${state.height}px`,
-          transform: `scale(2) translate3d(0, calc(50vh - ${state.height / 2}px), -1px)`, // prettier-ignore
+          'margin-top': `-${height.content}px`,
+          transform: `scale(2) translate3d(0, ${(height.wrapper / 2) - (height.content / 2)}px, -1px)`, // prettier-ignore
         }}
       >
         <div class='mx-auto' style={{ width: 'min(70%, 256px)' }}>
