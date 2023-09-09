@@ -1,7 +1,6 @@
 import { type FC } from '@app/types'
 import { Suspense } from 'solid-js'
 import { weddingPropsType } from '@wedding/state/schema'
-import { isIOS } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import WeddingSection from '@wedding/components/Section'
@@ -15,8 +14,8 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       <div
         id='scroller'
         class={css('min-h-[525px] overflow-y-auto overflow-x-hidden', {
-          'fixed left-0 top-0 h-full w-full': isIOS(),
-          'h-screen': !isIOS(), // Fix jumping content in android.
+          'fixed left-0 top-0 h-full w-full': true,
+          // 'h-screen': !isIOS(), // Fix jumping content in android.
         })}
         style={{
           perspective: '1px',
