@@ -80,7 +80,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         <div class='mx-auto' style={{ width: 'min(75%, 256px)' }}>
           <HeroCoupleName />
         </div>
-        <div class='mb-12 flex w-full flex-col text-center'>
+        <div class='mb-14 flex w-full flex-col text-center'>
           <p class='mt-2 text-elevated text-white'>
             Undangan kepada Yth.
             <br />
