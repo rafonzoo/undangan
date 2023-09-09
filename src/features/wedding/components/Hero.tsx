@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
 import { lazy, onMount } from 'solid-js'
 import { invitationType, weddingPropsType } from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
+import { check, isIOS } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
@@ -56,8 +56,9 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
       >
         <BackgroundImage
           url={current('cover')?.url ?? ''}
-          class={css('absolute h-full w-full bg-black/80')}
+          class={css('absolute w-full bg-black/80')}
           style={{
+            height: isIOS() ? '100%' : '100vh',
             'background-size': current('cover')?.size ?? 'cover',
             'background-position': current('cover')?.position ?? 'center',
           }}
