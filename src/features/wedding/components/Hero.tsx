@@ -75,7 +75,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         class='relative z-10 flex origin-top-left flex-col justify-center safearea'
         style={{
           'margin-top': `-${height.content}px`,
-          transform: `translate3d(0, ${height.wrapper - height.content}px, -1px) scale(2)`, // prettier-ignore
+          transform: `translate3d(0, ${isIOS() ? (`${height.wrapper - height.content}px`) : `calc(100vh - ${height.content}px)`}, -1px) scale(2)`, // prettier-ignore
         }}
       >
         <div class='mx-auto' style={{ width: 'min(75%, 256px)' }}>
