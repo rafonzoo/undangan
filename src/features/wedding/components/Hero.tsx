@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
 import { lazy, onMount } from 'solid-js'
 import { invitationType, weddingPropsType } from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
+import { check, isIOS } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
@@ -26,6 +26,14 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
 
   const onopen = () => {
     console.log('played')
+  }
+
+  const agregator = () => {
+    if (isIOS()) {
+      return `${height.wrapper / 2 - height.content / 2}px`
+    }
+
+    return `calc(50vh - ${height.content / 2}px)`
   }
 
   const HeroCoupleName = lazy(
@@ -76,7 +84,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         class='relative z-10 flex origin-top-left flex-col justify-center safearea'
         style={{
           'margin-top': `-${height.content}px`,
-          transform: `scale(2) translate3d(0, ${(height.wrapper / 2) - (height.content / 2)}px, -1px)`, // prettier-ignore
+          transform: `scale(2) translate3d(0, ${agregator()}, -1px)`, // prettier-ignore
         }}
       >
         <div class='mx-auto' style={{ width: 'min(70%, 256px)' }}>
