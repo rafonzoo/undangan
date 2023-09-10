@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
 import { lazy, onMount } from 'solid-js'
 import { invitationType, weddingPropsType } from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
+import { check, isIOS } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
@@ -15,8 +15,9 @@ const weddingHeroType = z.object({
 
 const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const { props } = useProps(args, weddingHeroType)
-  const height = createMutable({ content: 0 })
+  const height = createMutable({ wrapper: 0, content: 0 })
 
+  let heroWrapper: HTMLElement
   let heroContent: HTMLElement
 
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
@@ -34,16 +35,22 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   onMount(() => {
     const observer = new ResizeObserver((ent) => {
       for (const entry of ent) {
-        height.content = entry.borderBoxSize[0].blockSize
+        if (entry.target === heroContent) {
+          height.content = entry.borderBoxSize[0].blockSize
+        } else {
+          height.wrapper = entry.borderBoxSize[0].blockSize
+        }
       }
     })
 
+    observer.observe(heroWrapper)
     observer.observe(heroContent)
   })
 
   return (
     <>
       <div
+        ref={(ref) => (heroWrapper = ref)}
         class='relative h-inherit min-h-[inherit] origin-top-left'
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
@@ -67,7 +74,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         class='relative z-10 flex origin-top-left flex-col justify-center safearea'
         style={{
           'margin-top': `-${height.content}px`,
-          transform: `translate3d(0, calc(100vh - ${height.content}px), -1px) scale(2)`, // prettier-ignore
+          transform: `translate3d(0, ${!isIOS() ? `calc(100vh - ${height.content}px)` : `${height.wrapper - height.content}px`}, -1px) scale(2)`, // prettier-ignore
         }}
       >
         <div class='mx-auto' style={{ width: 'min(75%, 256px)' }}>
