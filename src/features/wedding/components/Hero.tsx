@@ -1,7 +1,7 @@
 import { type FC, type Infer } from '@app/types'
 import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
-import { lazy, onMount } from 'solid-js'
+import { lazy, onCleanup, onMount } from 'solid-js'
 import { invitationType, weddingPropsType } from '@wedding/state/schema'
 import { check } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
@@ -24,14 +24,14 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     return check(invitationType, wedding[props.page].current)[key]
   }
 
-  // const rootClass = (remove = false) => {
-  //   ;['html', 'body', 'main', '#root'].forEach((root) => {
-  //     const element = document.querySelector<HTMLElement>(root)
-  //     const methods = remove ? 'remove' : 'add'
+  const rootClass = (remove = false) => {
+    ;['html', 'body', 'main', '#root'].forEach((root) => {
+      const element = document.querySelector<HTMLElement>(root)
+      const methods = remove ? 'remove' : 'add'
 
-  //     element?.classList[methods]('h-full')
-  //   })
-  // }
+      element?.classList[methods]('h-full')
+    })
+  }
 
   const onopen = () => {
     console.log('played')
@@ -56,8 +56,8 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     observer.observe(heroContent)
   })
 
-  // onMount(() => rootClass())
-  // onCleanup(() => rootClass(true))
+  onMount(() => rootClass())
+  onCleanup(() => rootClass(true))
 
   return (
     <>

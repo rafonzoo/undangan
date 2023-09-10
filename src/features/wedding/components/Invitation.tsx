@@ -14,7 +14,7 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
       <div
         id='scroller'
         class={css(
-          'h-screen min-h-[525px] w-full overflow-y-auto overflow-x-hidden'
+          'h-full min-h-[525px] w-full overflow-y-auto overflow-x-hidden'
           // {
           //   'h-screen': !isIOS(), // <-- Android fix.
           //   'h-full': isIOS(),
