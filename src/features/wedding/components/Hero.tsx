@@ -8,6 +8,7 @@ import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
 import BackgroundImage from '@app/components/BackgroundImage'
+import 'large-small-dynamic-viewport-units-polyfill'
 
 const weddingHeroType = z.object({
   page: weddingPropsType.shape.page,
@@ -23,6 +24,15 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
     return check(invitationType, wedding[props.page].current)[key]
   }
+
+  // const rootClass = (remove = false) => {
+  //   ;['html', 'body', 'main', '#root'].forEach((root) => {
+  //     const element = document.querySelector<HTMLElement>(root)
+  //     const methods = remove ? 'remove' : 'add'
+
+  //     element?.classList[methods]('h-full')
+  //   })
+  // }
 
   const onopen = () => {
     console.log('played')
@@ -46,6 +56,9 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     observer.observe(heroWrapper)
     observer.observe(heroContent)
   })
+
+  // onMount(() => rootClass())
+  // onCleanup(() => rootClass(true))
 
   return (
     <>
