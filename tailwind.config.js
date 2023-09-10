@@ -58,7 +58,6 @@ module.exports = {
         // '.translate-3d-center': { transform: translate['3d-center'] },
         // '.translate-z-0': { transform: 'translateZ(0)' },
         '.translate-3d-0': { transform: 'translate3d(0,0,0)' },
-        '.safearea': { paddingLeft: '24px', paddingRight: '24px' },
       })
     },
   ],

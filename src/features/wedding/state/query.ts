@@ -12,25 +12,25 @@ export const getInvitationQuery = (request: unknown) => {
     // if (page === 'editor') {
     //   const { data, error } = await supabase
     //     .from('wedding')
-    //     .select('name,wid,uid,status')
+    //     .select('name,wid,uid,status,template')
     //     .abortSignal(signal)
     //     .eq('wid', value)
     //     .single()
 
     //   if (error) throw error
-    //   return WeddingInvitation.parse({ ...data, guest })
+    //   return invitationType.parse({ ...data, guest })
     // }
 
     // const { data, error } = await supabase
     //   .from('wedding')
-    //   .select('name,wid,uid,status')
+    //   .select('name,wid,uid,status,template')
     //   .containedBy('guest', [guest])
     //   .abortSignal(signal)
     //   .eq('name', value)
     //   .single()
 
     // if (error) throw error
-    // return WeddingInvitation.parse({ ...data, guest })
+    // return invitationType.parse({ ...data, guest })
 
     if (signal.aborted) {
       throw clientError('E001')

@@ -44,14 +44,6 @@ export const capitalizer = (str: string) => {
   return str.charAt(0).toUpperCase() + str.substring(1)
 }
 
-export const paramToName = (str: string) => {
-  return prettyString(str).split('-').map(capitalizer).join(' ')
-}
-
-export const stringToParam = (str: string) => {
-  return prettyString(str).toLowerCase()
-}
-
 export const compareLower = (str1: string, str2: string) => {
   return str1.toLowerCase() === str2.toLowerCase()
 }

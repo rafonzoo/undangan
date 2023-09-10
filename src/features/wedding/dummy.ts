@@ -46,7 +46,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
     uid: 'db131098-dfe4-4b86-9033-62902d59fecc',
     name: 'yossy-rafa',
     status: 'paid',
-    guest: 'Alif Kahar',
+    guest: '(Cermati) Chris',
     template: 'default',
     cover: {
       url: '/images/example.jpg',

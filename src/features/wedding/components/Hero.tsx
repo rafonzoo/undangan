@@ -15,6 +15,7 @@ const weddingHeroType = z.object({
 
 const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const { props } = useProps(args, weddingHeroType)
+  const state = createMutable({ isLoading: true })
   const height = createMutable({ wrapper: 0, content: 0 })
 
   let heroWrapper: HTMLElement
@@ -39,6 +40,10 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
 
   const HeroCoupleName = lazy(
     () => import(`../template/v1/${current('template')}/icon/hero.svg`)
+  )
+
+  const HeroCoupleIconPlay = lazy(
+    () => import(`../template/v1/${current('template')}/icon/play.svg`)
   )
 
   onMount(() => {
@@ -68,7 +73,10 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
       >
         <BackgroundImage
           url={current('cover')?.url ?? ''}
-          class={css('absolute h-full w-full bg-black/80')}
+          onready={() => (state.isLoading = false)}
+          class={css('absolute h-full w-full bg-black', {
+            'animate-pulse': state.isLoading,
+          })}
           style={{
             'background-size': current('cover')?.size ?? 'cover',
             'background-position': current('cover')?.position ?? 'center',
@@ -83,26 +91,29 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
       </div>
       <div
         ref={(ref) => (heroContent = ref)}
-        class='relative z-10 flex origin-top-left flex-col justify-center safearea'
+        class='relative z-10 flex origin-top-left flex-col justify-center px-6'
         style={{
           'margin-top': `-${height.content}px`,
           transform: `translate3d(0, ${height.wrapper - height.content}px, -1px) scale(2)`, // prettier-ignore
         }}
       >
-        <div class='mx-auto' style={{ width: 'min(75%, 256px)' }}>
+        <div class='mx-auto' style={{ width: '240px' }}>
           <HeroCoupleName />
         </div>
         <div class='mb-14 flex w-full flex-col text-center'>
           <p class='mt-2 text-elevated text-white'>
-            Undangan kepada Yth.
+            Invites you to our wedding,
             <br />
             {current('guest')}
           </p>
           <button
             onclick={onopen}
-            class='mx-auto my-6 inline-flex rounded-full bg-white/70 px-4 py-2 font-semibold'
+            class='mx-auto my-6 inline-flex items-center rounded-full bg-white/70 py-2 pl-4 pr-3 font-semibold'
           >
             Play
+            <span class='pointer-events-none ml-1 flex h-[18px] w-[18px]'>
+              <HeroCoupleIconPlay />
+            </span>
           </button>
           <div class='mx-auto max-w-full'>
             <div

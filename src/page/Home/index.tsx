@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js'
 import { A } from '@solidjs/router'
-import { queryString, stringToParam } from '@app/helpers/utils'
+import { queryString } from '@app/helpers/utils'
 import Container from '@app/components/Container'
 
 const Homepage: Component = () => {
@@ -9,7 +9,7 @@ const Homepage: Component = () => {
       <p>
         <A
           href={queryString('/wedding/couple/yossy-rafa', {
-            to: stringToParam('Alif Kahar'),
+            to: encodeURI('(Cermati) Chris'),
           })}
         >
           Go to public page
@@ -18,7 +18,7 @@ const Homepage: Component = () => {
       <p>
         <A
           href={queryString('/wedding/couple/claire-leon', {
-            to: stringToParam('Jill'),
+            to: encodeURI('Jill'),
           })}
         >
           Go to public page 2

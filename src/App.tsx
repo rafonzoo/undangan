@@ -1,6 +1,5 @@
 import { type Component, lazy } from 'solid-js'
 import { Route, Routes } from '@solidjs/router'
-import 'large-small-dynamic-viewport-units-polyfill'
 
 const Homepage = lazy(() => import('@app/page/Home'))
 const WeddingCouplePage = lazy(() => import('@wedding/page/couple'))

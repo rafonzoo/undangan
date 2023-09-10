@@ -6,7 +6,6 @@ import {
   weddingQueryType,
 } from '@wedding/state/schema'
 import { getInvitationAction } from '@wedding/state/action'
-import { paramToName } from '@app/helpers/utils'
 import { useProps, useQueryParam, useResource } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
 import WeddingInvitation from '@wedding/components/Invitation'
@@ -21,7 +20,7 @@ const WeddingSwitcher: FC<typeof weddingPropsType> = (args) => {
   const current = createMemo(() => wedding[props.page].current)
   const column = createMemo(() => (props.page === 'couple' ? 'name' : 'wid'))
   const fetchWhen = createMemo(() => {
-    const guestQuery = query.to ? paramToName(query.to) : undefined
+    const guestQuery = query.to ? encodeURI(query.to) : undefined
     const staledGuest = !!(current()?.guest !== guestQuery)
 
     return (

@@ -1,6 +1,6 @@
 import { type FC } from '@app/types'
 import { createMutable } from 'solid-js/store'
-import { lazy, onMount } from 'solid-js'
+import { createMemo, lazy, onMount } from 'solid-js'
 import { weddingImageEntityType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
@@ -8,6 +8,7 @@ import BackgroundImage from '@app/components/BackgroundImage'
 
 const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
   const { props } = useProps(arg, weddingImageEntityType)
+  const ArrowIcon = lazy(() => import('./icon/arrow.svg'))
   const state = createMutable({
     hasSibling: false,
     hasArrow: false,
@@ -26,7 +27,10 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
   const isTopLeft = () => props.caption?.placement === 'top left'
   const isBottomRight = () => props.caption?.placement === 'bottom right'
   const isBottomLeft = () => props.caption?.placement === 'bottom left'
-  const ArrowIcon = lazy(() => import('./icon/arrow.svg'))
+  const showClasses = createMemo(() => ({
+    'opacity-0': state.counter < 3,
+    'opacity-100': state.counter === 3,
+  }))
 
   let figureElement: HTMLElement | null = null
   let captionElement: HTMLElement | null = null
@@ -50,8 +54,6 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
       class={css('flex flex-col', props.class?.figure, {
         '-mb-8': isBottomRight() && state.hasSibling,
         '-mb-4': isBottomLeft() && state.hasSibling,
-        'opacity-0': state.counter < 3,
-        'opacity-100': state.counter === 3,
       })}
     >
       <div
@@ -69,6 +71,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             'pt-[131.295%]': isPortrait(),
             'w-[119.0058479%] pt-[90.6432748%]': isLandscape() && !isCenter(),
             'w-full pt-[76.75%]': isLandscape() && isCenter(),
+            ...showClasses(),
           })}
         />
         <BackgroundImage
@@ -82,6 +85,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             'h-[calc(100%_+_64px)] w-[120%]': isPortrait(),
             'h-[calc(100%_+_64px)] w-[136.85%]': isLandscape() && !isCenter(),
             'h-[calc(100%_+_64px)] w-[115%]': isLandscape() && isCenter(),
+            ...showClasses(),
           })}
         />
         <div
@@ -89,6 +93,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             'w-full p-[3.55%]': isPortrait(),
             'w-[119.0058479%] p-[3.21637426%]': isLandscape() && !isCenter(),
             'w-full p-[3.06391437%]': isLandscape() && isCenter(),
+            ...showClasses(),
           })}
         >
           <BackgroundImage
@@ -99,6 +104,15 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             class={css('h-full w-full rounded bg-cover', props.class?.image)}
           />
         </div>
+        <div
+          class={css(
+            'absolute bottom-0 left-0 right-0 top-0 animate-pulse rounded-2xl bg-black/20',
+            {
+              invisible: state.counter === 3,
+              'w-[119.0058479%]': isLandscape() && !isCenter(),
+            }
+          )}
+        />
       </div>
       {props.caption && (
         <figcaption
@@ -111,6 +125,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
               '-order-1 mb-1.5': props.caption?.placement.includes('top'),
               'mt-1.5': props.caption?.placement.includes('bottom'),
               [props.class?.caption ?? '']: !!props.class?.caption,
+              ...showClasses(),
             }
           )}
         >

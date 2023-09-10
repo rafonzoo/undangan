@@ -5,7 +5,7 @@ import {
 } from '@wedding/state/schema'
 import { getInvitationQuery } from '@wedding/state/query'
 import { dummyGuest } from '@wedding/dummy'
-import { check, paramToName } from '@app/helpers/utils'
+import { check } from '@app/helpers/utils'
 import { useCommonProps, useQueryParam } from '@app/helpers/hook'
 import { clientError, queryError } from '@app/helpers/api'
 import { setter } from '@app/config/store'
@@ -26,7 +26,7 @@ export const getInvitationAction = async (payload: unknown) => {
       throw clientError('E101')
     }
 
-    const guest = paramToName(query.to ?? dummyGuest)
+    const guest = decodeURI(query.to ?? dummyGuest)
     const response = await getInvitationQuery({ page, guest, value })
 
     setter.wedding(page, (prev) => ({
