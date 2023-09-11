@@ -14,10 +14,7 @@ const SVGIcon: FC<typeof SVGIconType, SX<'span'>> = (arg) => {
 
   return (
     <span
-      class={css(
-        'pointer-events-none flex items-center justify-center',
-        span.class
-      )}
+      class={css('pointer-events-none block', span.class)}
       style={{
         ...(typeof span.style === 'object' ? span.style : {}),
         width: `${props.size ?? 17}px`,
