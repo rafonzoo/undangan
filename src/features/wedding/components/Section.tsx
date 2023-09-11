@@ -91,7 +91,7 @@ const WeddingSection: FC<typeof weddingSectionType> = (args) => {
   )
 
   return (
-    <div class='relative z-10 bg-white dark:bg-black'>
+    <div class='backface-hidden relative z-10 bg-white translate-3d-0 dark:bg-black'>
       <div class='mx-auto max-w-[425px]'>
         <div class='flex flex-col px-6'>
           <Section />

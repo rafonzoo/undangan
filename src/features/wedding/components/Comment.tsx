@@ -26,7 +26,7 @@ const WeddingComment: FC<typeof weddingCommentType> = () => {
   })
 
   return (
-    <div class={css('mx-auto mb-3 mt-3 max-w-[425px] px-8')}>
+    <div class={css('mx-auto mb-3 mt-3 max-w-[425px] px-6')}>
       <div ref={setElement} id='disqus_thread' />
     </div>
   )
