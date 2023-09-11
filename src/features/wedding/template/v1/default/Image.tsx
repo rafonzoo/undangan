@@ -1,13 +1,15 @@
 import { type FC } from '@app/types'
 import { createMutable } from 'solid-js/store'
 import { createMemo, lazy, onMount } from 'solid-js'
-import { weddingImageEntityType } from '@wedding/state/schema'
+import { weddingImageEntityType, weddingParamType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
-import { useProps } from '@app/helpers/hook'
-import BackgroundImage from '@app/components/BackgroundImage'
+import { useProps, useQueryParam } from '@app/helpers/hook'
+import { supabase } from '@app/config/db'
+import BackgroundImage from '@app/components/BGImage'
 
 const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
   const { props } = useProps(arg, weddingImageEntityType)
+  const { param } = useQueryParam({ param: weddingParamType })
   const ArrowIcon = lazy(() => import('./icon/arrow.svg'))
   const state = createMutable({
     hasSibling: false,
@@ -34,6 +36,18 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
 
   let figureElement: HTMLElement | null = null
   let captionElement: HTMLElement | null = null
+
+  const getImageUrl = () => {
+    if (!param.name || !props.url) {
+      return ''
+    }
+
+    const { data } = supabase.storage
+      .from('uploads')
+      .getPublicUrl(param.name + props.url)
+
+    return data.publicUrl
+  }
 
   onMount(() => {
     if (captionElement) state.hasArrow = captionElement.clientHeight > 28
@@ -97,7 +111,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
           })}
         >
           <BackgroundImage
-            url={props.url ?? '/images/example.jpg'}
+            url={getImageUrl() ?? '/images/example.jpg'}
             onready={() => (state.counter += 1)}
             observer={{ rootMargin: '50%', rootId: 'scroller' }}
             style={{ 'background-position': props.position ?? '50% 50%' }}
@@ -130,7 +144,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
           )}
         >
           <span class='box-content line-clamp-2 max-h-12 max-w-[120px] py-1'>
-            {props.caption.text}
+            {props.caption.text.replace(/\\n/g, '\n')}
           </span>
           {state.hasArrow && (
             <span

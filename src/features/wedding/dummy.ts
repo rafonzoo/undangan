@@ -58,7 +58,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-intro-1',
           text: {
-            body: dummyParagraph,
+            body: 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. (QS. Ar - rum 21)',
             icon: 'message',
           },
           image: {
@@ -73,7 +73,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-intro-2',
           text: {
-            body: dummyList,
+            body: 'Yossy Vitri Pangestuti, 25 tahun. Anak ke-3 dari Bpk. Surtiyarso dan Ibu Maria Margaretha. Hal yang kusuka dari Rafa adalah bla bla bla..',
             icon: 'bride',
           },
           image: {
@@ -88,7 +88,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-intro-3',
           text: {
-            body: dummyList,
+            body: 'Rafa Rahmandika, 28 tahun. Anak pertama dari Bpk. Rayono dan Ibu Astuti. Hal yg kusuka dari Yossy adalah bla bla bla..',
             icon: 'groom',
           },
           image: {
@@ -119,7 +119,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-date-1',
           text: {
-            body: dummyList,
+            body: 'Akad: Sabtu, 23 September 2023 di Gedung Aula Gagak Hitam. Jalan Pesanggrahan Indah No. 11, RT. 10 / RW. 05, Pesanggrahan, Kecamatan Pesanggrahan, Kota Jakarta Selatan, 12320.',
             icon: 'message',
           },
           image: {
@@ -135,7 +135,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-date-2',
           text: {
-            body: dummyList,
+            body: 'Resepsi: Sabtu, 07 Oktober di Graha SMKN 57 Jakarta. Jalan Taman Margasatwa Raya No. 38B, RT. 12 / RW. 05, Jati Padang, Pasar Minggu, Kota Jakarta Selatan, 12540.',
             icon: 'message',
           },
           image: null,
@@ -145,7 +145,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-story-1',
           text: {
-            body: dummyList,
+            body: 'Sudah kurang lebih 6 tahun kita saling kenal dan berteman. Pertama kali kita bertemu dari platform social media, tapi siapa sangka hubungan kami menjadi sangat serius ke tahap berikutnya.',
             icon: 'message',
           },
           image: {
@@ -161,7 +161,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-story-2',
           text: {
-            body: dummyList,
+            body: 'Akhirnya kami memutuskan untuk memutus pertemanan kami dan menuju ke jenjang lamaran sebelum ke pernikahan. Kami menggelar prosesi lamaran pada Sabtu, 13 Mei 2023.',
             icon: 'message',
           },
           image: {
@@ -177,7 +177,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-story-3',
           text: {
-            body: dummyList,
+            body: 'Dengan tekat yang kuat dan keinginan yang tinggi. Kami sepakat untuk melangsungkan pernikahan sebagai tanda cinta kita yang tidak akan hilang sampai selamanya. Aaaaanjay',
             icon: 'message',
           },
           image: null,

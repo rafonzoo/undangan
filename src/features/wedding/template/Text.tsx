@@ -4,6 +4,7 @@ import { lazy, splitProps } from 'solid-js'
 import { invitationType, weddingSectionTextType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
+import SVGIcon from '@app/components/SVGIcon'
 
 const templateTextType = z.object({
   template: invitationType.shape.template,
@@ -34,13 +35,14 @@ const TemplateText: FC<typeof templateTextType> = (args) => {
       })}
     >
       <div class='mb-4'>
-        <span
-          class={css('block h-9 w-9', props.color, {
+        <SVGIcon
+          size={36}
+          class={css(props.color, {
             'translate-y-1': icon === 'message',
           })}
         >
           <IconComponent />
-        </span>
+        </SVGIcon>
       </div>
       <p class='text-lead font-semibold -tracking-lead'>{props.text.body}</p>
     </div>

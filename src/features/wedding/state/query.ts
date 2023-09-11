@@ -1,57 +1,55 @@
 import { getInvitationQueryType, invitationType } from '@wedding/state/schema'
-import { dummyWeddings } from '@wedding/dummy'
-import { check, delay } from '@app/helpers/utils'
-import { clientError, signal } from '@app/helpers/api'
+import { check } from '@app/helpers/utils'
+import { signal } from '@app/helpers/api'
+import { supabase } from '@app/config/db'
 
 export const getInvitationQuery = (request: unknown) => {
   const { page, guest, value } = check(getInvitationQueryType, request)
 
   return signal(async (signal) => {
-    await delay()
+    if (page === 'editor') {
+      const { data, error } = await supabase
+        .from('wedding')
+        .select('name,wid,uid,status,template,cover,section')
+        .abortSignal(signal)
+        .eq('wid', value)
+        .single()
 
-    // if (page === 'editor') {
-    //   const { data, error } = await supabase
-    //     .from('wedding')
-    //     .select('name,wid,uid,status,template')
-    //     .abortSignal(signal)
-    //     .eq('wid', value)
-    //     .single()
+      if (error) throw error
+      return invitationType.parse({ ...data, guest })
+    }
 
-    //   if (error) throw error
-    //   return invitationType.parse({ ...data, guest })
+    const { data, error } = await supabase
+      .from('wedding')
+      .select('name,wid,uid,status,template,cover,section')
+      .containedBy('guest', [guest])
+      .abortSignal(signal)
+      .eq('name', value)
+      .single()
+
+    if (error) throw error
+    return invitationType.parse({ ...data, guest })
+
+    // if (signal.aborted) {
+    //   throw clientError('E001')
     // }
 
-    // const { data, error } = await supabase
-    //   .from('wedding')
-    //   .select('name,wid,uid,status,template')
-    //   .containedBy('guest', [guest])
-    //   .abortSignal(signal)
-    //   .eq('name', value)
-    //   .single()
+    // if (page === 'editor') {
+    //   const response = dummyWeddings.find(({ wid }) => wid === value)
 
-    // if (error) throw error
-    // return invitationType.parse({ ...data, guest })
+    //   if (!response) {
+    //     throw clientError('E201')
+    //   }
 
-    if (signal.aborted) {
-      throw clientError('E001')
-    }
+    //   return invitationType.parse({ ...response, guest })
+    // }
 
-    if (page === 'editor') {
-      const response = dummyWeddings.find(({ wid }) => wid === value)
+    // const response = dummyWeddings.find(({ name }) => name === value)
 
-      if (!response) {
-        throw clientError('E201')
-      }
+    // if (!response || response.guest !== guest) {
+    //   throw clientError('E201')
+    // }
 
-      return invitationType.parse({ ...response, guest })
-    }
-
-    const response = dummyWeddings.find(({ name }) => name === value)
-
-    if (!response || response.guest !== guest) {
-      throw clientError('E201')
-    }
-
-    return invitationType.parse({ ...response, guest })
+    // return invitationType.parse({ ...response, guest })
   })
 }

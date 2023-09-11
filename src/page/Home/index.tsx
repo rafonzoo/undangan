@@ -9,7 +9,7 @@ const Homepage: Component = () => {
       <p>
         <A
           href={queryString('/wedding/couple/yossy-rafa', {
-            to: encodeURI('(Cermati) Chris'),
+            to: encodeURI('(SMAN 38) Alif'),
           })}
         >
           Go to public page

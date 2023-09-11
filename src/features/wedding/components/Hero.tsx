@@ -2,12 +2,18 @@ import { type FC, type Infer } from '@app/types'
 import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
 import { lazy, onCleanup, onMount } from 'solid-js'
-import { invitationType, weddingPropsType } from '@wedding/state/schema'
+import {
+  invitationType,
+  weddingParamType,
+  weddingPropsType,
+} from '@wedding/state/schema'
 import { check } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
-import { useProps } from '@app/helpers/hook'
+import { useProps, useQueryParam } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
-import BackgroundImage from '@app/components/BackgroundImage'
+import { supabase } from '@app/config/db'
+import SVGIcon from '@app/components/SVGIcon'
+import BackgroundImage from '@app/components/BGImage'
 
 const weddingHeroType = z.object({
   page: weddingPropsType.shape.page,
@@ -15,11 +21,20 @@ const weddingHeroType = z.object({
 
 const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const { props } = useProps(args, weddingHeroType)
+  const { param } = useQueryParam({ param: weddingParamType })
   const state = createMutable({ isLoading: true })
   const height = createMutable({ wrapper: 0, content: 0 })
 
   let heroWrapper: HTMLElement
   let heroContent: HTMLElement
+
+  const HeroCoupleName = lazy(
+    () => import(`../template/v1/${current('template')}/icon/hero.svg`)
+  )
+
+  const HeroIconPlay = lazy(
+    () => import(`../template/v1/${current('template')}/icon/play.svg`)
+  )
 
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
     return check(invitationType, wedding[props.page].current)[key]
@@ -38,13 +53,19 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     console.log('played')
   }
 
-  const HeroCoupleName = lazy(
-    () => import(`../template/v1/${current('template')}/icon/hero.svg`)
-  )
+  const getImageUrl = () => {
+    const url = current('cover')?.url
 
-  const HeroCoupleIconPlay = lazy(
-    () => import(`../template/v1/${current('template')}/icon/play.svg`)
-  )
+    if (!param.name || !url) {
+      return ''
+    }
+
+    const { data } = supabase.storage
+      .from('uploads')
+      .getPublicUrl(param.name + url)
+
+    return data.publicUrl
+  }
 
   onMount(() => {
     const observer = new ResizeObserver((ent) => {
@@ -72,7 +93,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
         <BackgroundImage
-          url={current('cover')?.url ?? ''}
+          url={getImageUrl() ?? ''}
           onready={() => (state.isLoading = false)}
           class={css('absolute h-full w-full bg-black', {
             'animate-pulse': state.isLoading,
@@ -108,12 +129,12 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
           </p>
           <button
             onclick={onopen}
-            class='mx-auto my-6 inline-flex items-center rounded-full bg-white/70 py-2 pl-4 pr-3 font-semibold'
+            class='mx-auto my-6 inline-flex items-center rounded-full bg-white/70 py-2 pl-4 pr-3 font-semibold text-black'
           >
             Play
-            <span class='pointer-events-none ml-1 flex h-[18px] w-[18px]'>
-              <HeroCoupleIconPlay />
-            </span>
+            <SVGIcon size={18} class='ml-1'>
+              <HeroIconPlay />
+            </SVGIcon>
           </button>
           <div class='mx-auto max-w-full'>
             <div

@@ -1,7 +1,7 @@
-import { type Children } from '@app/types'
+import { type Child } from '@app/types'
 import { type JSX, onMount, splitProps } from 'solid-js'
 
-const Image: Children<JSX.IntrinsicElements['img']> = (arg) => {
+const Image: Child<JSX.IntrinsicElements['img']> = (arg) => {
   const [props, img] = splitProps(arg, ['src'])
 
   let imageElement: HTMLImageElement | null = null

@@ -1,7 +1,7 @@
-import { type Children } from '@app/types'
+import { type Child } from '@app/types'
 import { ErrorBoundary } from 'solid-js'
 
-const Container: Children = (props) => {
+const Container: Child = (props) => {
   return (
     <ErrorBoundary
       fallback={(err, reset) => {

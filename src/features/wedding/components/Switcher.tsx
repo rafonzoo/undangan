@@ -20,7 +20,7 @@ const WeddingSwitcher: FC<typeof weddingPropsType> = (args) => {
   const current = createMemo(() => wedding[props.page].current)
   const column = createMemo(() => (props.page === 'couple' ? 'name' : 'wid'))
   const fetchWhen = createMemo(() => {
-    const guestQuery = query.to ? encodeURI(query.to) : undefined
+    const guestQuery = query.to ? decodeURI(query.to) : undefined
     const staledGuest = !!(current()?.guest !== guestQuery)
 
     return (

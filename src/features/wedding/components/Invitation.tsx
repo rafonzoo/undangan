@@ -5,6 +5,7 @@ import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import WeddingSection from '@wedding/components/Section'
 import WeddingHero from '@wedding/components/Hero'
+import WeddingComment from '@wedding/components/Comment'
 
 const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
   const { props } = useProps(args, weddingPropsType)
@@ -15,10 +16,6 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         id='scroller'
         class={css(
           'h-full min-h-[525px] w-full overflow-y-auto overflow-x-hidden'
-          // {
-          //   'h-screen': !isIOS(), // <-- Android fix.
-          //   'h-full': isIOS(),
-          // }
         )}
         style={{
           perspective: '1px',
@@ -31,6 +28,11 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
 
         {/* Content */}
         <WeddingSection page={props.page} />
+
+        {/* EXPERIMENTAL: Comments */}
+        {import.meta.env.VITE_ENV !== 'development' && (
+          <WeddingComment page={props.page} />
+        )}
       </div>
     </Suspense>
   )
