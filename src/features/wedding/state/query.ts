@@ -10,7 +10,7 @@ export const getInvitationQuery = (request: unknown) => {
     if (page === 'editor') {
       const { data, error } = await supabase
         .from('wedding')
-        .select('name,wid,uid,status,template,cover,section')
+        .select('name,wid,uid,status,template,hero,section')
         .abortSignal(signal)
         .eq('wid', value)
         .single()
@@ -21,7 +21,7 @@ export const getInvitationQuery = (request: unknown) => {
 
     const { data, error } = await supabase
       .from('wedding')
-      .select('name,wid,uid,status,template,cover,section')
+      .select('name,wid,uid,status,template,hero,section')
       .containedBy('guest', [guest])
       .abortSignal(signal)
       .eq('name', value)

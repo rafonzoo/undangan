@@ -114,8 +114,11 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             url={getImageUrl() ?? '/images/example.jpg'}
             onready={() => (state.counter += 1)}
             observer={{ rootMargin: '50%', rootId: 'scroller' }}
-            style={{ 'background-position': props.position ?? '50% 50%' }}
-            class={css('h-full w-full rounded bg-cover', props.class?.image)}
+            class={css('h-full w-full rounded', props.class?.image)}
+            style={{
+              'background-position': props.position ?? '50% 50%',
+              'background-size': props.size ?? 'cover',
+            }}
           />
         </div>
         <div

@@ -18,8 +18,9 @@ export const invitationImageCaptionType = z.object({
 export const invitationImageType = z.object({
   url: z.string(),
   orientation: z.enum(['portrait', 'landscape']),
-  placement: z.enum(['left', 'right', 'center']).optional(),
-  position: z.string().optional(),
+  placement: z.enum(['left', 'right', 'center']).nullable(),
+  position: z.string().nullable(),
+  size: z.string().nullable(),
   caption: invitationImageCaptionType.nullable(),
 })
 
@@ -44,10 +45,9 @@ export const invitationType = z.object({
   guest: guestType,
   template: z.enum(['default']),
   section: invitationSectionType,
-  cover: invitationImageType
+  hero: invitationImageType
     .pick({ url: true, position: true })
-    .extend({ size: z.string().optional() })
-    .optional(),
+    .extend({ size: z.string().nullable() }),
 })
 
 const weddingPageType = z.object({

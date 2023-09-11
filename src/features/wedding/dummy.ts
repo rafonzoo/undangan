@@ -46,9 +46,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
     uid: 'db131098-dfe4-4b86-9033-62902d59fecc',
     name: 'yossy-rafa',
     status: 'paid',
-    guest: '(Cermati) Chris',
+    guest: '(SMAN 38) Alif',
     template: 'default',
-    cover: {
+    hero: {
       url: '/images/example.jpg',
       position: '50% 50%',
       size: '200%',
@@ -64,6 +64,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'portrait',
+            position: null,
+            placement: null,
+            size: null,
             caption: {
               text: 'We are\nmarried!!',
               placement: 'top right',
@@ -79,6 +82,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'portrait',
+            position: null,
+            placement: null,
+            size: null,
             caption: {
               text: 'Yossy',
               placement: 'bottom right',
@@ -94,6 +100,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'portrait',
+            position: null,
+            placement: null,
+            size: null,
             caption: {
               text: 'Rafa',
               placement: 'top left',
@@ -108,6 +117,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             orientation: 'landscape',
             placement: 'right',
             position: '50% 70%',
+            size: null,
             caption: {
               text: 'Momen saat\nkita akad =)',
               placement: 'bottom right',
@@ -125,7 +135,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'landscape',
+            position: null,
             placement: 'center',
+            size: null,
             caption: {
               text: 'Saking\nJawa lur',
               placement: 'top left',
@@ -151,7 +163,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'landscape',
+            position: null,
             placement: 'right',
+            size: null,
             caption: {
               text: '6 tahun\nyang lalu',
               placement: 'top right',
@@ -168,6 +182,8 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
             url: '/images/example.jpg',
             orientation: 'landscape',
             placement: 'left',
+            size: null,
+            position: null,
             caption: {
               text: 'Otw lamaran\n kerumah calon',
               placement: 'bottom right',
@@ -188,8 +204,10 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'landscape',
+            position: null,
             placement: 'right',
             caption: null,
+            size: null,
           },
         },
       ],
@@ -200,6 +218,9 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           image: {
             url: '/images/example.jpg',
             orientation: 'portrait',
+            position: null,
+            placement: null,
+            size: null,
             caption: {
               text: 'Mohon doa\nrestu yaa',
               placement: 'top left',
@@ -210,135 +231,3 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
     },
   },
 ]
-// {
-//   wid: 'e82b26e0-4088-4d80-bf7c-addefd92d60e',
-//   uid: 'db131098-dfe4-4b86-9033-62902d59fecc',
-//   name: 'claire-leon',
-//   status: 'paid',
-//   guest: 'Jill',
-//   section: {
-//     opening: [
-//       {
-//         name: 'intro',
-//         text: {
-//           body: 'lorem-ipsum intro',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'portrait',
-//           placement: 'left',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'bride',
-//         text: {
-//           body: 'lorem-ipsum bride',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'portrait',
-//           placement: 'left',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'groom',
-//         text: {
-//           body: 'lorem-ipsum groom',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'portrait',
-//           placement: 'left',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'outro',
-//         text: null,
-//         image: {
-//           orientation: 'landscape',
-//           placement: 'right',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//     ],
-//     date: [
-//       {
-//         name: 'ceremony',
-//         text: {
-//           body: 'lorem-ipsum ceremony',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'landscape',
-//           placement: 'left',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'reception',
-//         text: {
-//           body: 'lorem-ipsum reception',
-//           icon: 'message',
-//         },
-//         image: null,
-//       },
-//     ],
-//     story: [
-//       {
-//         name: 'story-1',
-//         text: {
-//           body: 'lorem-ipsum story-1',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'landscape',
-//           placement: 'right',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'story-2',
-//         text: {
-//           body: 'lorem-ipsum story-2',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'landscape',
-//           placement: 'left',
-//           placement: 'before',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//       {
-//         name: 'story-3',
-//         text: {
-//           body: 'lorem-ipsum story-3',
-//           icon: 'message',
-//         },
-//         image: {
-//           orientation: 'landscape',
-//           placement: 'right',
-//           placement: 'after',
-//           caption: null,
-//           url: '/images/example.jpg',
-//         },
-//       },
-//     ],
-//   },
-// },

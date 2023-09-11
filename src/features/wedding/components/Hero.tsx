@@ -54,7 +54,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   }
 
   const getImageUrl = () => {
-    const url = current('cover')?.url
+    const url = current('hero')?.url
 
     if (!param.name || !url) {
       return ''
@@ -93,14 +93,14 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
         <BackgroundImage
-          url={getImageUrl() ?? ''}
+          url={getImageUrl() ?? '/images/example.jpg'}
           onready={() => (state.isLoading = false)}
           class={css('absolute h-full w-full bg-black', {
             'animate-pulse': state.isLoading,
           })}
           style={{
-            'background-size': current('cover')?.size ?? 'cover',
-            'background-position': current('cover')?.position ?? 'center',
+            'background-size': current('hero')?.size ?? 'cover',
+            'background-position': current('hero')?.position ?? 'center',
           }}
         />
         <div
@@ -121,7 +121,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         <div class='mx-auto' style={{ width: '240px' }}>
           <HeroCoupleName />
         </div>
-        <div class='mb-14 flex w-full flex-col text-center'>
+        <div class='mb-10 flex w-full flex-col text-center'>
           <p class='mt-2 text-elevated text-white'>
             Invites you to our wedding,
             <br />
