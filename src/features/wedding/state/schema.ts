@@ -37,17 +37,20 @@ export const invitationSectionType = z.object({
   comment: invitationEntityType.array(),
 })
 
+export const invitationHeroType = invitationImageType
+  .pick({ url: true, position: true })
+  .extend({ size: z.string().nullable() })
+
 export const invitationType = z.object({
   uid: z.string().uuid(),
   wid: z.string().uuid(),
   name: z.string(),
+  song: z.string().nullable(),
   status: z.enum(['paid', 'pending', 'unpaid']),
   guest: guestType,
   template: z.enum(['default']),
   section: invitationSectionType,
-  hero: invitationImageType
-    .pick({ url: true, position: true })
-    .extend({ size: z.string().nullable() }),
+  hero: invitationHeroType,
 })
 
 const weddingPageType = z.object({

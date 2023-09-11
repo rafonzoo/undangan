@@ -27,7 +27,7 @@ module.exports = {
       },
       letterSpacing: {
         base: '0.013em',
-        lead: '0.032em',
+        lead: '0.021em',
         // heading: '0.021em',
         // hero: '0.0125em',
       },
@@ -47,6 +47,7 @@ module.exports = {
         }
       },
       animation: {
+        playback: 'spin 20s linear infinite',
         scrolldown: 'scrolldown 3s infinite',
       },
     },

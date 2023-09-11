@@ -22,11 +22,12 @@ const weddingHeroType = z.object({
 const WeddingHero: FC<typeof weddingHeroType> = (args) => {
   const { props } = useProps(args, weddingHeroType)
   const { param } = useQueryParam({ param: weddingParamType })
-  const state = createMutable({ isLoading: true })
+  const state = createMutable({ isLoading: true, isPlaying: false })
   const height = createMutable({ wrapper: 0, content: 0 })
 
   let heroWrapper: HTMLElement
   let heroContent: HTMLElement
+  let heroAudio: HTMLAudioElement
 
   const HeroCoupleName = lazy(
     () => import(`../template/v1/${current('template')}/icon/hero.svg`)
@@ -34,6 +35,10 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
 
   const HeroIconPlay = lazy(
     () => import(`../template/v1/${current('template')}/icon/play.svg`)
+  )
+
+  const HeroIconPause = lazy(
+    () => import(`../template/v1/${current('template')}/icon/pause.svg`)
   )
 
   const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
@@ -49,12 +54,22 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     })
   }
 
-  const onopen = () => {
-    console.log('played')
-  }
-
   const getImageUrl = () => {
     const url = current('hero')?.url
+
+    if (!param.name || !url) {
+      return ''
+    }
+
+    const { data } = supabase.storage
+      .from('uploads')
+      .getPublicUrl(param.name + url)
+
+    return data.publicUrl
+  }
+
+  const getMusicUrl = () => {
+    const url = current('song')
 
     if (!param.name || !url) {
       return ''
@@ -128,13 +143,42 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
             {current('guest')}
           </p>
           <button
-            onclick={onopen}
-            class='mx-auto my-6 inline-flex items-center rounded-full bg-white/70 py-2 pl-4 pr-3 font-semibold text-black'
+            onclick={() => {
+              heroAudio[!state.isPlaying ? 'play' : 'pause']()
+              state.isPlaying = !state.isPlaying ? true : false
+            }}
+            class={css(
+              'mx-auto my-6 inline-flex items-center justify-center',
+              'h-10 rounded-full bg-white/70 font-semibold text-black',
+              {
+                'w-10': state.isPlaying,
+                'w-[85px]': !state.isPlaying,
+              }
+            )}
           >
-            Play
-            <SVGIcon size={18} class='ml-1'>
-              <HeroIconPlay />
-            </SVGIcon>
+            <audio
+              src={getMusicUrl()}
+              ref={(ref) => (heroAudio = ref)}
+              onended={() => (state.isPlaying = false)}
+            />
+            <span
+              class={css('animate-playback', {
+                hidden: !state.isPlaying,
+                block: state.isPlaying,
+              })}
+            >
+              <SVGIcon size={24} children={<HeroIconPause />} />
+            </span>
+            <span
+              class={css('m-auto flex translate-x-0.5 items-center', {
+                hidden: state.isPlaying,
+              })}
+            >
+              <span>Play</span>
+              <SVGIcon size={18} class='ml-1'>
+                <HeroIconPlay />
+              </SVGIcon>
+            </span>
           </button>
           <div class='mx-auto max-w-full'>
             <div
