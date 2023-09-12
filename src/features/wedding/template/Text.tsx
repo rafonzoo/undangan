@@ -31,7 +31,7 @@ const TemplateText: FC<typeof templateTextType> = (args) => {
       class={css('mt-8', {
         'transition duration-700': true,
         'translate-y-20 opacity-0': !isIntersecting(),
-        'opacity-100 translate-3d-0': isIntersecting(),
+        'transform-none opacity-100': isIntersecting(),
       })}
     >
       <div class='mb-4'>
