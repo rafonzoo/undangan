@@ -83,7 +83,7 @@ const WeddingSection = () => {
   )
 
   return (
-    <div class='relative z-10 bg-white dark:bg-black'>
+    <div class='translate-z-0 relative z-10 bg-white backface-hidden dark:bg-black'>
       <div class='mx-auto max-w-[425px]'>
         <div class='flex flex-col px-6'>
           <Section />

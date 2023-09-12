@@ -55,10 +55,8 @@ module.exports = {
   plugins: [
     ({ addUtilities }) => {
       addUtilities({
-        // '.translate-3d-center': { transform: translate['3d-center'] },
-        // '.translate-z-0': { transform: 'translateZ(0)' },
-        // '.backface-hidden': { 'backface-visibility': 'hidden' },
-        '.translate-3d-0': { transform: 'translate3d(0,0,0)' },
+        '.translate-z-0': { transform: 'translateZ(0)' },
+        '.backface-hidden': { 'backface-visibility': 'hidden' },
       })
     },
   ],
