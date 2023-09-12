@@ -1,4 +1,4 @@
-import { type Infer, type Nullish, type Type } from '@app/types'
+import { type Infer, type Nullable, type Nullish, type Type } from '@app/types'
 import {
   type ResourceFetcher,
   type ResourceSource,
@@ -7,14 +7,17 @@ import {
   createSignal,
   onMount,
 } from 'solid-js'
+import { weddingParamType } from '@wedding/state/schema'
 import {
   type NavigateOptions,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from '@solidjs/router'
-import { useIntersectionType } from '@app/state/schema'
+import { intersectionOptionType } from '@app/state/schema'
 import { check } from '@app/helpers/utils'
+import { __DEV__, supabase } from '@app/config/env'
 
 type HistoryOption = Omit<NavigateOptions, 'replace'>
 
@@ -69,13 +72,13 @@ export const useQueryParam = <T extends Type, N extends Type>(opt: {
   }
 }
 
-export const useIntersection = (opt?: Infer<typeof useIntersectionType>) => {
+export const useIntersection = (opt?: Infer<typeof intersectionOptionType>) => {
   const [element, setElement] = createSignal<HTMLElement | null>(null)
   const [isIntersecting, setIntersect] = createSignal(false)
 
   onMount(() => {
     const target = element()
-    const option = check(useIntersectionType.optional(), opt)
+    const option = check(intersectionOptionType.optional(), opt)
 
     const root = !!option?.rootId
       ? target?.closest(`#${option.rootId}`)
@@ -97,4 +100,36 @@ export const useIntersection = (opt?: Infer<typeof useIntersectionType>) => {
   })
 
   return { isIntersecting, setElement }
+}
+
+export const useRemoteUrl = (column = 'uploads') => {
+  const { param } = useQueryParam({ param: weddingParamType })
+
+  if (!param.name) {
+    return () => ''
+  }
+
+  return (url?: Nullable<string>) => {
+    if (!url) return ''
+    if (__DEV__) return url
+
+    const { data } = supabase.storage
+      .from(column)
+      .getPublicUrl(param.name + url)
+
+    return data.publicUrl
+  }
+}
+
+export const useWeddingPath = () => {
+  const { pathname } = useLocation()
+  const [, page] = pathname.split('/').filter(Boolean)
+
+  if (!page.match(/editor|couple/g)) {
+    throw new Error(
+      'Calling `useWeddingPath` outside wedding page is forbidden.'
+    )
+  }
+
+  return page as 'editor' | 'couple'
 }

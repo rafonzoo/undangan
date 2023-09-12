@@ -1,15 +1,13 @@
 import { type FC } from '@app/types'
 import { createMutable } from 'solid-js/store'
-import { createMemo, lazy, onMount } from 'solid-js'
-import { weddingImageEntityType, weddingParamType } from '@wedding/state/schema'
+import { batch, createMemo, lazy, onMount } from 'solid-js'
+import { weddingImageEntityType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
-import { useProps, useQueryParam } from '@app/helpers/hook'
-import { supabase } from '@app/config/db'
+import { useProps, useRemoteUrl } from '@app/helpers/hook'
 import BackgroundImage from '@app/components/BGImage'
 
 const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
   const { props } = useProps(arg, weddingImageEntityType)
-  const { param } = useQueryParam({ param: weddingParamType })
   const ArrowIcon = lazy(() => import('./icon/arrow.svg'))
   const state = createMutable({
     hasSibling: false,
@@ -21,6 +19,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
     },
   })
 
+  const url = useRemoteUrl()
   const isPortrait = () => props.orientation === 'portrait'
   const isLandscape = () => props.orientation === 'landscape'
   const isRight = () => props.placement === 'right'
@@ -34,32 +33,24 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
     'opacity-100': state.counter === 3,
   }))
 
-  let figureElement: HTMLElement | null = null
-  let captionElement: HTMLElement | null = null
-
-  const getImageUrl = () => {
-    if (!param.name || !props.url) {
-      return ''
-    }
-
-    const { data } = supabase.storage
-      .from('uploads')
-      .getPublicUrl(param.name + props.url)
-
-    return data.publicUrl
-  }
+  let figureElement: HTMLElement
+  let captionElement: HTMLElement
 
   onMount(() => {
-    if (captionElement) state.hasArrow = captionElement.clientHeight > 28
-    if (figureElement) state.hasSibling = !!figureElement?.nextElementSibling
+    batch(() => {
+      if (props.caption) state.hasArrow = captionElement.clientHeight > 28
+      state.hasSibling = !!figureElement.nextElementSibling
+    })
   })
 
   onMount(async () => {
     const frameUrl = await import(`./frame/${props.orientation}.png`)
     const shadowUrl = await import(`./frame/${props.orientation}-shadow.png`)
 
-    state.url.frame = frameUrl.default
-    state.url.shadow = shadowUrl.default
+    batch(() => {
+      state.url.frame = frameUrl.default
+      state.url.shadow = shadowUrl.default
+    })
   })
 
   return (
@@ -111,7 +102,7 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
           })}
         >
           <BackgroundImage
-            url={getImageUrl() ?? '/images/example.jpg'}
+            url={url(props.url)}
             onready={() => (state.counter += 1)}
             observer={{ rootMargin: '50%', rootId: 'scroller' }}
             class={css('h-full w-full rounded', props.class?.image)}

@@ -17,7 +17,7 @@ const WeddingCouplePage: Component = () => {
 
   return (
     <Container>
-      <WeddingSwitcher page='couple' />
+      <WeddingSwitcher />
     </Container>
   )
 }

@@ -17,7 +17,7 @@ module.exports = {
       },
       fontSize: {
         // small: ['11px', '15px'],
-        // caption: ['12px', '16px'],
+        small: ['12px', '16px'],
         base: ['17px', '24px'],
         elevated: ['19px', '25px'],
         lead: ['21px', '26px'],
@@ -36,7 +36,7 @@ module.exports = {
         // 21: 84,
       },
       screens: {
-        // xxs: '359px',
+        xxs: '359px',
         // sm: '525px',
         // md: '768px',
       },
@@ -57,7 +57,7 @@ module.exports = {
       addUtilities({
         // '.translate-3d-center': { transform: translate['3d-center'] },
         // '.translate-z-0': { transform: 'translateZ(0)' },
-        '.backface-hidden': { 'backface-visibility': 'hidden' },
+        // '.backface-hidden': { 'backface-visibility': 'hidden' },
         '.translate-3d-0': { transform: 'translate3d(0,0,0)' },
       })
     },

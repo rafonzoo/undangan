@@ -1,14 +1,23 @@
-import { type FC } from '@app/types'
-import { Suspense } from 'solid-js'
-import { weddingPropsType } from '@wedding/state/schema'
+import { Suspense, onCleanup, onMount } from 'solid-js'
 import { css } from '@app/helpers/lib'
-import { useProps } from '@app/helpers/hook'
 import WeddingSection from '@wedding/components/Section'
 import WeddingHero from '@wedding/components/Hero'
 import WeddingComment from '@wedding/components/Comment'
 
-const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
-  const { props } = useProps(args, weddingPropsType)
+const WeddingInvitation = () => {
+  const fullHeightTags = ['html', 'body', 'main', '#root']
+
+  const rootClass = (remove = false) => {
+    fullHeightTags.forEach((tag) => {
+      const element = document.querySelector<HTMLElement>(tag)
+      const methods = remove ? 'remove' : 'add'
+
+      element?.classList[methods]('h-full')
+    })
+  }
+
+  onMount(() => rootClass())
+  onCleanup(() => rootClass(true))
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
@@ -24,15 +33,12 @@ const WeddingInvitation: FC<typeof weddingPropsType> = (args) => {
         }}
       >
         {/* Cover */}
-        <WeddingHero page={props.page} />
+        <WeddingHero />
 
         {/* Content */}
-        <WeddingSection page={props.page} />
+        <WeddingSection />
 
-        {/* EXPERIMENTAL: Comments */}
-        {import.meta.env.VITE_ENV !== 'development' && (
-          <WeddingComment page={props.page} />
-        )}
+        {<WeddingComment />}
       </div>
     </Suspense>
   )

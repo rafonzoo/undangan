@@ -25,7 +25,7 @@ const WeddingEditorPage: Component = () => {
 
   return (
     <Container>
-      <WeddingSwitcher page='editor' />
+      <WeddingSwitcher />
     </Container>
   )
 }

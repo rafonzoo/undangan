@@ -1,14 +1,14 @@
 import { type FC } from '@app/types'
 import { z } from 'zod'
 import { For, createMemo } from 'solid-js'
-import { invitationEntityType, invitationType } from '@wedding/state/schema'
+import { weddingEntityType, weddingType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useProps } from '@app/helpers/hook'
 import WeddingImage from '@wedding/components/Image'
 
 const templateCoupleType = z.object({
-  template: invitationType.shape.template,
-  entities: invitationEntityType.array(),
+  template: weddingType.shape.template,
+  entities: weddingEntityType.array(),
 })
 
 const TemplateCouple: FC<typeof templateCoupleType> = (args) => {

@@ -1,7 +1,5 @@
 import { type Infer, type Nullish, type Type } from '@app/types'
 
-export const isIOS = () => !!navigator.userAgent.match(/iPhone|iPod|iPad/)
-
 export const delay = (timer = 1000): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, timer))
 }
@@ -19,7 +17,7 @@ export const entries = <T extends object>(obj: T) => {
   return arr
 }
 
-export const queryString = <T extends Object>(path: string, obj: T) => {
+export const qstring = <T extends Object>(path: string, obj: T) => {
   const array = []
 
   for (const key in obj) {
@@ -42,8 +40,4 @@ export const prettyString = (str: string) => {
 
 export const capitalizer = (str: string) => {
   return str.charAt(0).toUpperCase() + str.substring(1)
-}
-
-export const compareLower = (str1: string, str2: string) => {
-  return str1.toLowerCase() === str2.toLowerCase()
 }

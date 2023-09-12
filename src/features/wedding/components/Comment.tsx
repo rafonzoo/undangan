@@ -1,18 +1,17 @@
-import { type FC } from '@app/types'
-import { z } from 'zod'
 import { createEffect } from 'solid-js'
-import { weddingPropsType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useIntersection } from '@app/helpers/hook'
+import { __DEV__ } from '@app/config/env'
+import WeddingGift from '@wedding/components/Gift'
 
-const weddingCommentType = z.object({
-  page: weddingPropsType.shape.page,
-})
-
-const WeddingComment: FC<typeof weddingCommentType> = () => {
+const WeddingComment = () => {
   const { isIntersecting, setElement } = useIntersection()
 
   createEffect(() => {
+    if (__DEV__) {
+      return // EXPERIMENTAL: Comments
+    }
+
     if (!isIntersecting()) {
       return
     }
@@ -26,8 +25,11 @@ const WeddingComment: FC<typeof weddingCommentType> = () => {
   })
 
   return (
-    <div class={css('mx-auto mb-3 mt-3 max-w-[425px] px-6')}>
-      <div ref={setElement} id='disqus_thread' />
+    <div class={css('mx-auto mb-3 flex max-w-[425px] flex-col px-6')}>
+      <WeddingGift />
+      <div class='mt-3'>
+        <div ref={setElement} id='disqus_thread' />
+      </div>
     </div>
   )
 }

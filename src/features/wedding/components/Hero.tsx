@@ -1,85 +1,33 @@
-import { type FC, type Infer } from '@app/types'
-import { z } from 'zod'
+import { type Infer } from '@app/types'
 import { createMutable } from 'solid-js/store'
-import { lazy, onCleanup, onMount } from 'solid-js'
-import {
-  invitationType,
-  weddingParamType,
-  weddingPropsType,
-} from '@wedding/state/schema'
+import { lazy, onMount } from 'solid-js'
+import { weddingType } from '@wedding/state/schema'
 import { check } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
-import { useProps, useQueryParam } from '@app/helpers/hook'
+import { useRemoteUrl, useWeddingPath } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
-import { supabase } from '@app/config/db'
 import SVGIcon from '@app/components/SVGIcon'
 import BackgroundImage from '@app/components/BGImage'
 
-const weddingHeroType = z.object({
-  page: weddingPropsType.shape.page,
-})
-
-const WeddingHero: FC<typeof weddingHeroType> = (args) => {
-  const { props } = useProps(args, weddingHeroType)
-  const { param } = useQueryParam({ param: weddingParamType })
+const WeddingHero = () => {
   const state = createMutable({ isLoading: true, isPlaying: false })
   const height = createMutable({ wrapper: 0, content: 0 })
+  const weddingPath = useWeddingPath()
 
   let heroWrapper: HTMLElement
   let heroContent: HTMLElement
   let heroAudio: HTMLAudioElement
 
+  const SystemIconPlay = lazy(() => import('@app/assets/icon/play.svg'))
+  const SystemIconPause = lazy(() => import('@app/assets/icon/pause.svg'))
   const HeroCoupleName = lazy(
     () => import(`../template/v1/${current('template')}/icon/hero.svg`)
   )
 
-  const HeroIconPlay = lazy(
-    () => import(`../template/v1/${current('template')}/icon/play.svg`)
-  )
+  const url = useRemoteUrl()
 
-  const HeroIconPause = lazy(
-    () => import(`../template/v1/${current('template')}/icon/pause.svg`)
-  )
-
-  const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
-    return check(invitationType, wedding[props.page].current)[key]
-  }
-
-  const rootClass = (remove = false) => {
-    ;['html', 'body', 'main', '#root'].forEach((root) => {
-      const element = document.querySelector<HTMLElement>(root)
-      const methods = remove ? 'remove' : 'add'
-
-      element?.classList[methods]('h-full')
-    })
-  }
-
-  const getImageUrl = () => {
-    const url = current('hero')?.url
-
-    if (!param.name || !url) {
-      return ''
-    }
-
-    const { data } = supabase.storage
-      .from('uploads')
-      .getPublicUrl(param.name + url)
-
-    return data.publicUrl
-  }
-
-  const getMusicUrl = () => {
-    const url = current('song')
-
-    if (!param.name || !url) {
-      return ''
-    }
-
-    const { data } = supabase.storage
-      .from('uploads')
-      .getPublicUrl(param.name + url)
-
-    return data.publicUrl
+  const current = <T extends keyof Infer<typeof weddingType>>(key: T) => {
+    return check(weddingType, wedding[weddingPath].current)[key]
   }
 
   onMount(() => {
@@ -97,9 +45,6 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
     observer.observe(heroContent)
   })
 
-  onMount(() => rootClass())
-  onCleanup(() => rootClass(true))
-
   return (
     <>
       <div
@@ -108,7 +53,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
         <BackgroundImage
-          url={getImageUrl() ?? '/images/example.jpg'}
+          url={url(current('hero').url)}
           onready={() => (state.isLoading = false)}
           class={css('absolute h-full w-full bg-black', {
             'animate-pulse': state.isLoading,
@@ -133,7 +78,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
           transform: `translate3d(0, ${height.wrapper - height.content}px, -1px) scale(2)`, // prettier-ignore
         }}
       >
-        <div class='mx-auto' style={{ width: '240px' }}>
+        <div class='mx-auto w-[min(77.19298245%,_240px)]'>
           <HeroCoupleName />
         </div>
         <div class='mb-10 flex w-full flex-col text-center'>
@@ -157,7 +102,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
             )}
           >
             <audio
-              src={getMusicUrl()}
+              src={url(current('song'))}
               ref={(ref) => (heroAudio = ref)}
               onended={() => (state.isPlaying = false)}
             />
@@ -167,7 +112,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
                 block: state.isPlaying,
               })}
             >
-              <SVGIcon size={24} children={<HeroIconPause />} />
+              <SVGIcon size={24} children={<SystemIconPause />} />
             </span>
             <span
               class={css('m-auto flex translate-x-0.5 items-center', {
@@ -176,7 +121,7 @@ const WeddingHero: FC<typeof weddingHeroType> = (args) => {
             >
               <span>Play</span>
               <SVGIcon size={18} class='ml-1'>
-                <HeroIconPlay />
+                <SystemIconPlay />
               </SVGIcon>
             </span>
           </button>

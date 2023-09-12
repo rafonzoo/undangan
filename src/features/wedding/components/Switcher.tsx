@@ -1,43 +1,56 @@
-import { type FC } from '@app/types'
-import { Show, createMemo } from 'solid-js'
-import {
-  weddingParamType,
-  weddingPropsType,
-  weddingQueryType,
-} from '@wedding/state/schema'
+import { Show, createEffect, createMemo, onCleanup, untrack } from 'solid-js'
+import { weddingParamType, weddingQueryType } from '@wedding/state/schema'
 import { getInvitationAction } from '@wedding/state/action'
-import { useProps, useQueryParam, useResource } from '@app/helpers/hook'
+import { capitalizer } from '@app/helpers/utils'
+import { useQueryParam, useResource, useWeddingPath } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
 import WeddingInvitation from '@wedding/components/Invitation'
 
-const WeddingSwitcher: FC<typeof weddingPropsType> = (args) => {
-  const { props } = useProps(args, weddingPropsType)
+const WeddingSwitcher = () => {
   const { param, query } = useQueryParam({
     param: weddingParamType,
     query: weddingQueryType,
   })
 
-  const current = createMemo(() => wedding[props.page].current)
-  const column = createMemo(() => (props.page === 'couple' ? 'name' : 'wid'))
+  const weddingPath = useWeddingPath()
+  const current = createMemo(() => wedding[weddingPath].current)
+  const column = createMemo(() => (weddingPath === 'couple' ? 'name' : 'wid'))
   const fetchWhen = createMemo(() => {
     const guestQuery = query.to ? decodeURI(query.to) : undefined
     const staledGuest = !!(current()?.guest !== guestQuery)
 
     return (
       current()?.[column()] !== param[column()] ||
-      (props.page === 'couple' && staledGuest)
+      (weddingPath === 'couple' && staledGuest)
     )
   })
 
+  const title = createMemo(() => document.title)
+
   const { resource } = useResource(
-    () => props.page,
+    () => weddingPath,
     getInvitationAction,
     fetchWhen
   )
 
+  createEffect(() => {
+    const couple = param.name
+    const hasGuest = !!current()?.guest
+
+    if (!hasGuest || !couple || weddingPath !== 'couple') {
+      return
+    }
+
+    document.title = `The Wedding of ${untrack(() =>
+      couple.split('-').map(capitalizer).join(' & ')
+    )}`
+
+    onCleanup(() => (document.title = title()))
+  })
+
   return (
     <Show when={!resource.loading} fallback={<p>Loading...</p>}>
-      <WeddingInvitation page={props.page} />
+      <WeddingInvitation />
     </Show>
   )
 }

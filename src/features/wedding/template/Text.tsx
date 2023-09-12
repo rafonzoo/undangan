@@ -1,13 +1,13 @@
 import { type FC } from '@app/types'
 import { z } from 'zod'
 import { lazy, splitProps } from 'solid-js'
-import { invitationType, weddingSectionTextType } from '@wedding/state/schema'
+import { weddingSectionTextType, weddingType } from '@wedding/state/schema'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
 import SVGIcon from '@app/components/SVGIcon'
 
 const templateTextType = z.object({
-  template: invitationType.shape.template,
+  template: weddingType.shape.template,
   props: weddingSectionTextType,
 })
 
@@ -35,12 +35,7 @@ const TemplateText: FC<typeof templateTextType> = (args) => {
       })}
     >
       <div class='mb-4'>
-        <SVGIcon
-          size={36}
-          class={css(props.color, {
-            'translate-y-1': icon === 'message',
-          })}
-        >
+        <SVGIcon size={36} class={css(props.color)}>
           <IconComponent />
         </SVGIcon>
       </div>

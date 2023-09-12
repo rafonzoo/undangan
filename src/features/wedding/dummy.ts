@@ -1,27 +1,16 @@
 import { type Infer } from '@app/types'
-import {
-  commentType,
-  guestType,
-  type invitationType,
-} from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
-import { userAccountSchema } from '@account/store/schema'
+import { type weddingType } from '@wedding/state/schema'
+import { type guestType } from '@app/state/schema'
+import { type userAccountSchema } from '@account/store/schema'
 
-export const dummyUser = check(userAccountSchema, {
+export const dummyUser: Infer<typeof userAccountSchema> = {
   id: 'db131098-dfe4-4b86-9033-62902d59fecc',
   email: 'rafa@example.com',
   name: 'Rafa',
   wedding: ['531baf87-ce9d-4447-958d-6e771d68bca9'],
-})
+}
 
-export const dummyGuest = check(guestType, 'Sibro')
-
-export const dummyComment = check(commentType, {
-  wid: '531baf87-ce9d-4447-958d-6e771d68bca9',
-  uid: '09280f48-e4af-4dd2-bdfe-2e13b682260e',
-  name: 'Alif Kahar',
-  email: 'alif.kahar@email.com',
-})
+export const dummyGuest: Infer<typeof guestType> = 'Sibro'
 
 // prettier-ignore
 export const dummyParagraph = (
@@ -40,7 +29,7 @@ export const dummyList = (
   'et dolore sed do eiusmod tempor didunt.'
 )
 
-export const dummyWeddings: Infer<typeof invitationType>[] = [
+export const dummyWeddings: Infer<typeof weddingType>[] = [
   {
     wid: '531baf87-ce9d-4447-958d-6e771d68bca9',
     uid: 'db131098-dfe4-4b86-9033-62902d59fecc',
@@ -48,6 +37,21 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
     status: 'paid',
     guest: '(SMAN 38) Alif',
     template: 'default',
+    song: '/audio/example.wav',
+    gift: [
+      {
+        code: 'cimb',
+        alias: 'CIMB',
+        accountNumber: btoa('1111111111111029'),
+        accountName: 'Rafa Rahmandika',
+      },
+      {
+        code: 'mandiri',
+        alias: 'Mandiri',
+        accountNumber: btoa('2222222222225617'),
+        accountName: 'Rafa Rahmandika',
+      },
+    ],
     hero: {
       url: '/images/example.jpg',
       position: '50% 50%',
@@ -58,8 +62,8 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
         {
           label: 'section-intro-1',
           text: {
-            body: 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. (QS. Ar - rum 21)',
-            icon: 'message',
+            body: 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. (QS. Ar-Rum: 21)',
+            icon: 'quotes',
           },
           image: {
             url: '/images/example.jpg',
@@ -110,7 +114,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           },
         },
         {
-          label: 'section-intro-5',
+          label: 'section-intro-4',
           text: null,
           image: {
             url: '/images/example.jpg',
@@ -130,7 +134,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-date-1',
           text: {
             body: 'Akad: Sabtu, 23 September 2023 di Gedung Aula Gagak Hitam. Jalan Pesanggrahan Indah No. 11, RT. 10 / RW. 05, Pesanggrahan, Kecamatan Pesanggrahan, Kota Jakarta Selatan, 12320.',
-            icon: 'message',
+            icon: 'ceremony',
           },
           image: {
             url: '/images/example.jpg',
@@ -148,7 +152,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-date-2',
           text: {
             body: 'Resepsi: Sabtu, 07 Oktober di Graha SMKN 57 Jakarta. Jalan Taman Margasatwa Raya No. 38B, RT. 12 / RW. 05, Jati Padang, Pasar Minggu, Kota Jakarta Selatan, 12540.',
-            icon: 'message',
+            icon: 'location',
           },
           image: null,
         },
@@ -158,7 +162,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-story-1',
           text: {
             body: 'Sudah kurang lebih 6 tahun kita saling kenal dan berteman. Pertama kali kita bertemu dari platform social media, tapi siapa sangka hubungan kami menjadi sangat serius ke tahap berikutnya.',
-            icon: 'message',
+            icon: 'couple',
           },
           image: {
             url: '/images/example.jpg',
@@ -176,7 +180,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-story-2',
           text: {
             body: 'Akhirnya kami memutuskan untuk memutus pertemanan kami dan menuju ke jenjang lamaran sebelum ke pernikahan. Kami menggelar prosesi lamaran pada Sabtu, 13 Mei 2023.',
-            icon: 'message',
+            icon: 'ring',
           },
           image: {
             url: '/images/example.jpg',
@@ -194,7 +198,7 @@ export const dummyWeddings: Infer<typeof invitationType>[] = [
           label: 'section-story-3',
           text: {
             body: 'Dengan tekat yang kuat dan keinginan yang tinggi. Kami sepakat untuk melangsungkan pernikahan sebagai tanda cinta kita yang tidak akan hilang sampai selamanya. Aaaaanjay',
-            icon: 'message',
+            icon: 'cake',
           },
           image: null,
         },

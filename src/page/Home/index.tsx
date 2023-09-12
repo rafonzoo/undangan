@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js'
 import { A } from '@solidjs/router'
-import { queryString } from '@app/helpers/utils'
+import { qstring } from '@app/helpers/utils'
 import Container from '@app/components/Container'
 
 const Homepage: Component = () => {
@@ -8,7 +8,7 @@ const Homepage: Component = () => {
     <Container>
       <p>
         <A
-          href={queryString('/wedding/couple/yossy-rafa', {
+          href={qstring('/wedding/couple/yossy-rafa', {
             to: encodeURI('(SMAN 38) Alif'),
           })}
         >
@@ -17,7 +17,7 @@ const Homepage: Component = () => {
       </p>
       <p>
         <A
-          href={queryString('/wedding/couple/claire-leon', {
+          href={qstring('/wedding/couple/claire-leon', {
             to: encodeURI('Jill'),
           })}
         >

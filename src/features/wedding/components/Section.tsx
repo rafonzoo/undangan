@@ -1,33 +1,25 @@
 import { type FC, type Infer } from '@app/types'
 import { z } from 'zod'
 import { For, createMemo } from 'solid-js'
-import {
-  invitationEntityType,
-  invitationType,
-  weddingPropsType,
-} from '@wedding/state/schema'
+import { weddingEntityType, weddingType } from '@wedding/state/schema'
 import { check, entries } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
-import { useProps } from '@app/helpers/hook'
+import { useProps, useWeddingPath } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
 import TemplateTitle from '@wedding/template/Title'
 import TemplateText from '@wedding/template/Text'
 import TemplateImage from '@wedding/template/Image'
 
 const wedddingSectionEntityType = z.object({
-  data: invitationEntityType.array(),
+  data: weddingEntityType.array(),
   color: z.string().nullable(),
 })
 
-const weddingSectionType = z.object({
-  page: weddingPropsType.shape.page,
-})
+const WeddingSection = () => {
+  const weddingPath = useWeddingPath()
 
-const WeddingSection: FC<typeof weddingSectionType> = (args) => {
-  const { props } = useProps(args, weddingSectionType)
-
-  const current = <T extends keyof Infer<typeof invitationType>>(key: T) => {
-    return check(invitationType, wedding[props.page].current)[key]
+  const current = <T extends keyof Infer<typeof weddingType>>(key: T) => {
+    return check(weddingType, wedding[weddingPath].current)[key]
   }
 
   const sections = createMemo(() =>
@@ -38,8 +30,8 @@ const WeddingSection: FC<typeof weddingSectionType> = (args) => {
         // prettier-ignore
         switch (title) {
           case 'intro': return 'text-pink-500'
-          case 'date': return 'text-green-500'
-          case 'story': return 'text-indigo-500'
+          case 'date': return 'text-orange-500'
+          case 'story': return 'text-cyan-500'
         default: return null
       }
       })(),
@@ -59,7 +51,7 @@ const WeddingSection: FC<typeof weddingSectionType> = (args) => {
               [additionalGap]: !!image && !label.match(/section-intro-[2|3]/),
             })}
           >
-            <TemplateImage page={props.page} props={{ label, image }} />
+            <TemplateImage label={label} image={image} />
             <TemplateText
               template={current('template')}
               props={{ color: local.color, text }}
@@ -91,7 +83,7 @@ const WeddingSection: FC<typeof weddingSectionType> = (args) => {
   )
 
   return (
-    <div class='backface-hidden relative z-10 bg-white translate-3d-0 dark:bg-black'>
+    <div class='relative z-10 bg-white dark:bg-black'>
       <div class='mx-auto max-w-[425px]'>
         <div class='flex flex-col px-6'>
           <Section />

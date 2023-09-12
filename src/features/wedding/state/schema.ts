@@ -1,47 +1,54 @@
 import { z } from 'zod'
+import { bankStateType, guestType } from '@app/state/schema'
 
-export const guestType = z.string()
-export const iconType = z.enum(['message', 'bride', 'groom'])
+export const weddingIconType = z.enum([
+  'cake',
+  'couple',
+  'bride',
+  'groom',
+  'quotes',
+  'ceremony',
+  'ring',
+  'location',
+])
 
-export const commentType = z.object({
-  uid: z.string().uuid(),
-  wid: z.string().uuid(),
-  name: guestType,
-  email: z.string().email(),
-})
-
-export const invitationImageCaptionType = z.object({
+export const weddingImageCaptionType = z.object({
   text: z.string().min(3).max(60),
   placement: z.enum(['top left', 'top right', 'bottom left', 'bottom right']),
 })
 
-export const invitationImageType = z.object({
+export const weddingImageType = z.object({
   url: z.string(),
   orientation: z.enum(['portrait', 'landscape']),
   placement: z.enum(['left', 'right', 'center']).nullable(),
   position: z.string().nullable(),
   size: z.string().nullable(),
-  caption: invitationImageCaptionType.nullable(),
+  caption: weddingImageCaptionType.nullable(),
 })
 
-export const invitationEntityType = z.object({
+export const weddingTextType = z.object({
+  body: z.string(),
+  icon: weddingIconType,
+})
+
+export const weddingEntityType = z.object({
   label: z.string().startsWith('section-'),
-  image: invitationImageType.nullable(),
-  text: z.object({ body: z.string(), icon: iconType }).nullable(),
+  image: weddingImageType.nullable(),
+  text: weddingTextType.nullable(),
 })
 
-export const invitationSectionType = z.object({
-  intro: invitationEntityType.array(),
-  date: invitationEntityType.array(),
-  story: invitationEntityType.array(),
-  comment: invitationEntityType.array(),
+export const weddingSectionType = z.object({
+  intro: weddingEntityType.array(),
+  date: weddingEntityType.array(),
+  story: weddingEntityType.array(),
+  comment: weddingEntityType.array(),
 })
 
-export const invitationHeroType = invitationImageType
+export const weddingHeroType = weddingImageType
   .pick({ url: true, position: true })
   .extend({ size: z.string().nullable() })
 
-export const invitationType = z.object({
+export const weddingType = z.object({
   uid: z.string().uuid(),
   wid: z.string().uuid(),
   name: z.string(),
@@ -49,13 +56,14 @@ export const invitationType = z.object({
   status: z.enum(['paid', 'pending', 'unpaid']),
   guest: guestType,
   template: z.enum(['default']),
-  section: invitationSectionType,
-  hero: invitationHeroType,
+  section: weddingSectionType,
+  hero: weddingHeroType,
+  gift: bankStateType.array(),
 })
 
-const weddingPageType = z.object({
-  current: invitationType.nullable(),
-  list: invitationType.array(),
+export const weddingPageType = z.object({
+  current: weddingType.nullable(),
+  list: weddingType.array(),
 })
 
 export const weddingStateType = z.object({
@@ -72,41 +80,38 @@ export const weddingQueryType = z.object({
   to: z.string().optional(),
 })
 
-export const weddingPropsType = z.object({
-  page: z.enum(['editor', 'couple']),
-})
-
 export const weddingColumnType = z.object({
   editor: z.literal('wid'),
   couple: z.literal('name'),
 })
 
 // Api
-export const getInvitationQueryType = weddingPropsType.extend({
+export const getInvitationQueryType = z.object({
+  page: z.enum(['editor', 'couple']),
   guest: z.string(),
   value: z.string(),
 })
 
 // Components
-const weddingImageClassType = z.record(
+export const weddingImageClassType = z.record(
   z.enum(['figure', 'image', 'caption']),
   z.string().optional()
 )
 
-export const weddingImageEntityType = invitationImageType
-  .partial({ url: true })
+export const weddingImageEntityType = weddingImageType
+  // .partial({ url: true })
   .extend({ class: weddingImageClassType.optional() })
 
 export const weddingTitleEntityType = z.object({
   class: z.string().optional(),
-  title: invitationSectionType.keyof(),
+  title: weddingSectionType.keyof(),
 })
 
-export const weddingSectionImageType = invitationEntityType.pick({
+export const weddingSectionImageType = weddingEntityType.pick({
   image: true,
   label: true,
 })
 
-export const weddingSectionTextType = invitationEntityType
+export const weddingSectionTextType = weddingEntityType
   .pick({ text: true })
   .extend({ color: z.string().nullable() })

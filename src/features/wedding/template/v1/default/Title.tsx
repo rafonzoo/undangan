@@ -9,7 +9,7 @@ const WeddingTitleDefault: FC<typeof weddingTitleEntityType> = (args) => {
   const Title = lazy(() => import(`./title/${props.title}.svg`))
   const classes = {
     comment: 'w-[max(81.87134502%,_240px)]',
-    date: 'w-[max(67.83625730%,_240px)]',
+    date: 'w-[max(67.83625730%,_220px)]',
     intro: 'w-[max(77.19298245%,_240px)]',
     story: 'w-[max(81.87134502%,_240px)]',
   }
