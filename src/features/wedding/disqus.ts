@@ -13,7 +13,7 @@ export const disqus = ({ identifier, title, url }) => {
       },
     })
   } else {
-    window.disqus_shortname = import.meta.env.VITE_DISQUS_URL
+    window.disqus_shortname = import.meta.env.VITE_DISQUS_SHORTNAME
     window.disqus_config = function () {
       this.page.identifier = identifier
       this.page.url = url
@@ -22,7 +22,7 @@ export const disqus = ({ identifier, title, url }) => {
 
     const disqus = document.createElement('script')
 
-    disqus.src = `https://${import.meta.env.VITE_DISQUS_URL}.disqus.com/embed.js` // prettier-ignore
+    disqus.src = `https://${import.meta.env.VITE_DISQUS_SHORTNAME}.disqus.com/embed.js` // prettier-ignore
     disqus.id = 'disqus_script'
     disqus.setAttribute('data-timestamp', `${+new Date()}`)
 
