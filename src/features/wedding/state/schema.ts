@@ -39,6 +39,7 @@ export const weddingEntityType = z.object({
 
 export const weddingSectionDateType = weddingEntityType.extend({
   restrictedTo: z.string().array(),
+  gmapUrl: z.string().url().nullable(),
 })
 
 export const weddingSectionImageType = weddingEntityType.pick({
@@ -47,8 +48,8 @@ export const weddingSectionImageType = weddingEntityType.pick({
 })
 
 export const weddingSectionTextType = weddingSectionDateType
-  .pick({ text: true, restrictedTo: true })
-  .partial({ restrictedTo: true })
+  .pick({ text: true, restrictedTo: true, gmapUrl: true })
+  .partial({ restrictedTo: true, gmapUrl: true })
   .extend({ color: z.string().nullable() })
 
 // NOTES: DO NOT ATTEMPT TO RE-SORT THIS OBJECT!!

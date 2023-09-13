@@ -2,8 +2,8 @@ import { type FC } from '@app/types'
 import { z } from 'zod'
 import { For, createMemo } from 'solid-js'
 import {
-  weddingEntityType,
   weddingSectionDateType,
+  weddingSectionTextType,
 } from '@wedding/state/schema'
 import { getWedding } from '@wedding/helpers'
 import { entries } from '@app/helpers/utils'
@@ -14,11 +14,10 @@ import TemplateText from '@wedding/template/Text'
 import TemplateImage from '@wedding/template/Image'
 
 const wedddingSectionEntityType = z.object({
-  data: weddingEntityType
-    .merge(weddingSectionDateType)
-    .partial({ restrictedTo: true })
+  color: weddingSectionTextType.shape.color,
+  data: weddingSectionDateType
+    .partial({ restrictedTo: true, gmapUrl: true })
     .array(),
-  color: z.string().nullable(),
 })
 
 const WeddingSection = () => {
@@ -41,7 +40,7 @@ const WeddingSection = () => {
   const SectionEntities: FC<typeof wedddingSectionEntityType> = (args) => {
     const { props: local } = useProps(args, wedddingSectionEntityType)
     const additionalGap = '[&:nth-child(n+3)]:pt-12'
-    const firstImageGap = '[&:nth-child(n+1)]:pt-12'
+    const firstImageGap = '[&:nth-child(n+1)]:pt-6'
 
     return (
       <For each={local.data}>

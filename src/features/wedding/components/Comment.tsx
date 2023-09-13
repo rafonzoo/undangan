@@ -1,27 +1,33 @@
 import { createEffect } from 'solid-js'
+import { getWedding } from '@wedding/helpers'
+import disqus from '@wedding/disqus'
+import { useLocation } from '@solidjs/router'
 import { css } from '@app/helpers/lib'
 import { useIntersection } from '@app/helpers/hook'
-import { __DEV__ } from '@app/config/env'
 import WeddingGift from '@wedding/components/Gift'
 
 const WeddingComment = () => {
   const { isIntersecting, setElement } = useIntersection()
+  const { pathname } = useLocation()
 
   createEffect(() => {
-    if (__DEV__) {
-      return // EXPERIMENTAL: Comments
+    if (!isIntersecting()) return
+
+    let config = {
+      id: 'local-dev',
+      title: 'RFZ Wedding App',
+      url: [location.protocol, location.hostname].join('//'),
     }
 
-    if (!isIntersecting()) {
-      return
+    if (location.hostname !== 'localhost') {
+      config = {
+        id: getWedding('wid'),
+        title: document.title,
+        url: location.origin + pathname,
+      }
     }
 
-    const disqus = document.createElement('script')
-
-    disqus.src = import.meta.env.VITE_DISQUS_URL + '/embed.js'
-    disqus.setAttribute('data-timestamp', `${+new Date()}`)
-
-    document.body.appendChild(disqus)
+    disqus(config)
   })
 
   return (

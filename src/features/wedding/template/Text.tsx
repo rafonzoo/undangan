@@ -45,10 +45,18 @@ const TemplateText: FC<typeof weddingSectionTextType> = (args) => {
           <IconComponent />
         </SVGIcon>
       </div>
-      <p
-        children={props.text.body}
-        class={css('text-lead font-semibold -tracking-lead')}
-      />
+      <p class={css('text-lead font-semibold -tracking-lead')}>
+        {props.text.body}
+        {props.gmapUrl && (
+          <a
+            href={props.gmapUrl}
+            target='_blank'
+            class='mt-6 block font-normal text-blue-600 dark:text-blue-400'
+          >
+            Buka lokasi melalui maps
+          </a>
+        )}
+      </p>
     </div>
   )
 }
