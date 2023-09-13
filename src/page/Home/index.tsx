@@ -12,16 +12,16 @@ const Homepage: Component = () => {
             to: encodeURI('(SMAN 38) Alif'),
           })}
         >
-          Go to public page
+          YOSSY RAFA
         </A>
       </p>
       <p>
         <A
-          href={qstring('/wedding/couple/claire-leon', {
-            to: encodeURI('Jill'),
+          href={qstring('/wedding/couple/oci-rafa', {
+            to: encodeURI('(SMAN 38) Alif'),
           })}
         >
-          Go to public page 2
+          OCI RAFA
         </A>
       </p>
       <p>

@@ -41,6 +41,7 @@ const WeddingSection = () => {
   const SectionEntities: FC<typeof wedddingSectionEntityType> = (args) => {
     const { props: local } = useProps(args, wedddingSectionEntityType)
     const additionalGap = '[&:nth-child(n+3)]:pt-12'
+    const firstImageGap = '[&:nth-child(n+1)]:pt-12'
 
     return (
       <For each={local.data}>
@@ -49,6 +50,9 @@ const WeddingSection = () => {
             id={label}
             class={css('flex flex-col', {
               [additionalGap]: !!image && !label.match(/section-intro-[2|3]/),
+              [firstImageGap]:
+                (!!image && !label.match(/section-intro-[2|3]/)) &&
+                (!image.caption || !image.caption.placement.includes('top')), // prettier-ignore
             })}
           >
             <TemplateImage label={label} image={image} />
@@ -61,18 +65,20 @@ const WeddingSection = () => {
 
   const Section = () => (
     <For each={sections()}>
-      {({ title, data, color }, index) => (
-        <section id={`section-${title}`} class={css('w-full')}>
-          <TemplateTitle
-            title={title}
-            class={css({
-              'mt-32': index() > 0,
-              'mt-20': index() === 0,
-            })}
-          />
-          <SectionEntities data={data} color={color} />
-        </section>
-      )}
+      {({ title, data, color }, index) =>
+        data.length > 0 && (
+          <section id={`section-${title}`} class={css('w-full')}>
+            <TemplateTitle
+              title={title}
+              class={css({
+                'mt-[120px]': index() > 0,
+                'mt-20': index() === 0,
+              })}
+            />
+            <SectionEntities data={data} color={color} />
+          </section>
+        )
+      }
     </For>
   )
 
