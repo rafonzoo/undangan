@@ -13,17 +13,18 @@ const WeddingComment = () => {
   createEffect(() => {
     if (!isIntersecting()) return
 
+    const { protocol, hostname, origin } = window.location
     let config = {
-      id: 'local-dev',
+      url: [protocol, hostname].join('//'),
+      identifier: 'local-dev',
       title: 'RFZ Wedding App',
-      url: [location.protocol, location.hostname].join('//'),
     }
 
-    if (location.hostname !== 'localhost') {
+    if (hostname !== 'localhost') {
       config = {
-        id: getWedding('wid'),
+        url: origin + pathname,
+        identifier: getWedding('wid'),
         title: document.title,
-        url: location.origin + pathname,
       }
     }
 
