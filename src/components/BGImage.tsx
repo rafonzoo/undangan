@@ -1,7 +1,7 @@
 import { type Child, type Infer, type SX } from '@app/types'
 import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
-import { createEffect, splitProps } from 'solid-js'
+import { createEffect, createMemo, splitProps } from 'solid-js'
 import { intersectionOptionType } from '@app/state/schema'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
@@ -22,20 +22,34 @@ const BackgroundImage: Child<BackgroundImageProps> = (arg) => {
   const { props } = useProps(local, backgroundImageType)
   const { isIntersecting, setElement } = useIntersection(props.observer)
 
+  const isDataUri = createMemo(() => props.url.includes('data:image/png'))
+
+  const backgroundUrl = createMemo(() => {
+    if (isDataUri()) {
+      return `url("${props.url}")`
+    }
+
+    return !!state.url ? `url("${state.url}")` : 'none'
+  })
+
   createEffect(() => {
     const img = new Image()
 
-    if (!isIntersecting() || !Boolean(props.url)) {
+    if (isDataUri() || !isIntersecting() || !Boolean(props.url)) {
       return
     }
 
     img.src = props.url
     img.onload = () => {
-      state.url = img.src
-      /**
-       * Callback if the image truely load.
-       */
-      props.onready?.()
+      img.decode().then(() => {
+        state.url = img.src
+        /**
+         * Callback if the image truely load.
+         */
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => props.onready?.())
+        })
+      })
     }
   })
 
@@ -46,7 +60,7 @@ const BackgroundImage: Child<BackgroundImageProps> = (arg) => {
       class={css('bg-no-repeat', div.class)}
       style={{
         ...(typeof div.style === 'object' ? div.style : {}),
-        'background-image': !!state.url ? `url("${state.url}")` : 'none',
+        'background-image': backgroundUrl(),
       }}
     />
   )

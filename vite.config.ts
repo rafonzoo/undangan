@@ -22,6 +22,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     target: 'es2015',
     minify: 'terser',
+    assetsInlineLimit: 17096,
     terserOptions: {
       format: {
         comments: false,
