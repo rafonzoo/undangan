@@ -63,29 +63,33 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
           '-translate-x-[18.5%]': isRight() && isLandscape(),
         })}
       >
-        <BackgroundImage
-          url={state.url.frame}
-          style={{ 'background-size': 'contain' }}
-          observer={{ rootMargin: '50%', rootId: 'scroller' }}
-          class={css({
-            'pointer-events-none relative z-10 bg-no-repeat': true,
-            'pt-[131.295%]': isPortrait(),
-            'w-[119.0058479%] pt-[90.6432748%]': isLandscape() && !isCenter(),
-            'w-full pt-[76.75%]': isLandscape() && isCenter(),
-          })}
-        />
-        <BackgroundImage
-          url={state.url.shadow}
-          style={{ 'background-size': '100%' }}
-          observer={{ rootMargin: '50%', rootId: 'scroller' }}
-          class={css({
-            'pointer-events-none absolute': true,
-            'left-0 top-0 bg-no-repeat': true,
-            'h-[calc(100%_+_64px)] w-[120%]': isPortrait(),
-            'h-[calc(100%_+_64px)] w-[136.85%]': isLandscape() && !isCenter(),
-            'h-[calc(100%_+_64px)] w-[115%]': isLandscape() && isCenter(),
-          })}
-        />
+        {!!state.url.frame && (
+          <BackgroundImage
+            url={state.url.frame}
+            style={{ 'background-size': 'contain' }}
+            observer={{ rootMargin: '50%', rootId: 'scroller' }}
+            class={css({
+              'pointer-events-none relative z-10 bg-no-repeat': true,
+              'pt-[131.295%]': isPortrait(),
+              'w-[119.0058479%] pt-[90.6432748%]': isLandscape() && !isCenter(),
+              'w-full pt-[76.75%]': isLandscape() && isCenter(),
+            })}
+          />
+        )}
+        {!!state.url.shadow && (
+          <BackgroundImage
+            url={state.url.shadow}
+            style={{ 'background-size': '100%' }}
+            observer={{ rootMargin: '50%', rootId: 'scroller' }}
+            class={css({
+              'pointer-events-none absolute': true,
+              'left-0 top-0 bg-no-repeat': true,
+              'h-[calc(100%_+_64px)] w-[120%]': isPortrait(),
+              'h-[calc(100%_+_64px)] w-[136.85%]': isLandscape() && !isCenter(),
+              'h-[calc(100%_+_64px)] w-[115%]': isLandscape() && isCenter(),
+            })}
+          />
+        )}
         <div
           class={css('absolute left-0 top-0 h-full rounded-[5.2747%]', {
             'w-full p-[3.55%]': isPortrait(),
@@ -106,15 +110,6 @@ const WeddingImageDefault: FC<typeof weddingImageEntityType> = (arg) => {
             }}
           />
         </div>
-        <div
-          class={css(
-            'absolute bottom-0 left-0 right-0 top-0 animate-pulse rounded-2xl bg-black/20',
-            {
-              invisible: state.ready,
-              'w-[119.0058479%]': isLandscape() && !isCenter(),
-            }
-          )}
-        />
       </div>
       {props.caption && (
         <figcaption

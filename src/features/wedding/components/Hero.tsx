@@ -1,18 +1,14 @@
-import { type Infer } from '@app/types'
 import { createMutable } from 'solid-js/store'
 import { lazy, onMount } from 'solid-js'
-import { weddingType } from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
+import { getWedding } from '@wedding/helpers'
 import { css } from '@app/helpers/lib'
-import { useRemoteUrl, useWeddingPath } from '@app/helpers/hook'
-import { wedding } from '@app/config/store'
+import { useRemoteUrl } from '@app/helpers/hook'
 import SVGIcon from '@app/components/SVGIcon'
 import BackgroundImage from '@app/components/BGImage'
 
 const WeddingHero = () => {
-  const state = createMutable({ isLoading: true, isPlaying: false })
+  const state = createMutable({ isPlaying: false })
   const height = createMutable({ wrapper: 0, content: 0 })
-  const weddingPath = useWeddingPath()
 
   let heroWrapper: HTMLElement
   let heroContent: HTMLElement
@@ -21,14 +17,10 @@ const WeddingHero = () => {
   const SystemIconPlay = lazy(() => import('@app/assets/icon/play.svg'))
   const SystemIconPause = lazy(() => import('@app/assets/icon/pause.svg'))
   const HeroCoupleName = lazy(
-    () => import(`../template/v1/${current('template')}/icon/hero.svg`)
+    () => import(`../template/v1/${getWedding('template')}/icon/hero.svg`)
   )
 
   const url = useRemoteUrl()
-
-  const current = <T extends keyof Infer<typeof weddingType>>(key: T) => {
-    return check(weddingType, wedding[weddingPath].current)[key]
-  }
 
   onMount(() => {
     const observer = new ResizeObserver((ent) => {
@@ -53,14 +45,11 @@ const WeddingHero = () => {
         style={{ transform: 'translateZ(-2px) scale(3)' }}
       >
         <BackgroundImage
-          url={url(current('hero').url)}
-          onready={() => (state.isLoading = false)}
-          class={css('absolute h-full w-full bg-black', {
-            'animate-pulse': state.isLoading,
-          })}
+          url={url(getWedding('hero').url)}
+          class={css('absolute h-full w-full bg-black')}
           style={{
-            'background-size': current('hero')?.size ?? 'cover',
-            'background-position': current('hero')?.position ?? 'center',
+            'background-size': getWedding('hero').size ?? 'cover',
+            'background-position': getWedding('hero').position ?? 'center',
           }}
         />
         <div
@@ -85,7 +74,7 @@ const WeddingHero = () => {
           <p class='mt-2 text-elevated text-white'>
             Invites you to our wedding,
             <br />
-            {current('guest')}
+            {getWedding('guest')}
           </p>
           <button
             onclick={() => {
@@ -102,7 +91,7 @@ const WeddingHero = () => {
             )}
           >
             <audio
-              src={url(current('song'))}
+              src={url(getWedding('song'))}
               ref={(ref) => (heroAudio = ref)}
               onended={() => (state.isPlaying = false)}
             />

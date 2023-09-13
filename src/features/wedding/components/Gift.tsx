@@ -1,11 +1,9 @@
 import { type FC } from '@app/types'
 import { z } from 'zod'
 import { createMutable } from 'solid-js/store'
-import { batch, createMemo, lazy, onCleanup } from 'solid-js'
-import { weddingType } from '@wedding/state/schema'
-import { check } from '@app/helpers/utils'
-import { useProps, useWeddingPath } from '@app/helpers/hook'
-import { wedding } from '@app/config/store'
+import { batch, lazy, onCleanup } from 'solid-js'
+import { getWedding } from '@wedding/helpers'
+import { useProps } from '@app/helpers/hook'
 
 interface CopyState {
   copy: number[]
@@ -18,11 +16,6 @@ const weddingGiftBankType = z.object({
 
 const WeddingGift = () => {
   const state = createMutable<CopyState>({ copy: [], tick: null })
-  const weddingPath = useWeddingPath()
-
-  const gifts = createMemo(() =>
-    check(weddingType.shape.gift, wedding[weddingPath].current?.gift)
-  )
 
   const isSelected = (index: number) => {
     return state.copy.some((idx) => idx === index)
@@ -62,16 +55,16 @@ const WeddingGift = () => {
 
   return (
     <ul class='mt-5 space-y-3'>
-      {gifts().map((gift, index) => (
+      {getWedding('gift').map((gift, index) => (
         <li class='flex rounded-2xl bg-zinc-100 p-3 dark:bg-zinc-900'>
-          <div class='max-xxs:h-9 max-xxs:w-9 max-xxs:min-w-[36px] mr-3 h-11 w-11 overflow-hidden rounded-lg'>
+          <div class='mr-3 h-11 w-11 min-w-[44px] overflow-hidden rounded-lg max-xxs:h-9 max-xxs:w-9 max-xxs:min-w-[36px]'>
             <Bank code={gift.code} />
           </div>
           <div class='pr-3'>
-            <div class='max-xxs:text-sm line-clamp-1 font-semibold'>
+            <div class='line-clamp-1 font-semibold max-xxs:text-sm'>
               {gift.accountName}
             </div>
-            <div class='max-xxs:text-small line-clamp-1 text-sm text-zinc-600 dark:text-zinc-400'>
+            <div class='line-clamp-1 text-sm text-zinc-600 dark:text-zinc-400 max-xxs:text-small'>
               {[
                 gift.alias,
                 [
@@ -82,10 +75,10 @@ const WeddingGift = () => {
             </div>
           </div>
           <button
-            class='max-xxs:text-small relative z-10 my-auto ml-auto h-8 rounded-full bg-zinc-200 px-3 text-sm font-semibold uppercase text-blue-600 dark:bg-zinc-800 dark:text-blue-400'
+            class='relative z-10 my-auto ml-auto h-8 rounded-full bg-zinc-200 px-3 text-sm font-semibold uppercase text-blue-600 dark:bg-zinc-800 dark:text-blue-400 max-xxs:text-small'
             onclick={() => onclick(gift.accountNumber, index)}
           >
-            {isSelected(index) ? 'disalin' : 'Salin'}
+            {isSelected(index) ? 'disalin' : 'salin'}
           </button>
         </li>
       ))}

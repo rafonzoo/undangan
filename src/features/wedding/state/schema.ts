@@ -37,9 +37,24 @@ export const weddingEntityType = z.object({
   text: weddingTextType.nullable(),
 })
 
+export const weddingSectionDateType = weddingEntityType.extend({
+  restrictedTo: z.string().array(),
+})
+
+export const weddingSectionImageType = weddingEntityType.pick({
+  image: true,
+  label: true,
+})
+
+export const weddingSectionTextType = weddingSectionDateType
+  .pick({ text: true, restrictedTo: true })
+  .partial({ restrictedTo: true })
+  .extend({ color: z.string().nullable() })
+
+// NOTES: DO NOT ATTEMPT TO RE-SORT THIS OBJECT!!
 export const weddingSectionType = z.object({
   intro: weddingEntityType.array(),
-  date: weddingEntityType.array(),
+  date: weddingSectionDateType.array(),
   story: weddingEntityType.array(),
   comment: weddingEntityType.array(),
 })
@@ -98,20 +113,11 @@ export const weddingImageClassType = z.record(
   z.string().optional()
 )
 
-export const weddingImageEntityType = weddingImageType
-  // .partial({ url: true })
-  .extend({ class: weddingImageClassType.optional() })
+export const weddingImageEntityType = weddingImageType.extend({
+  class: weddingImageClassType.optional(),
+})
 
 export const weddingTitleEntityType = z.object({
   class: z.string().optional(),
   title: weddingSectionType.keyof(),
 })
-
-export const weddingSectionImageType = weddingEntityType.pick({
-  image: true,
-  label: true,
-})
-
-export const weddingSectionTextType = weddingEntityType
-  .pick({ text: true })
-  .extend({ color: z.string().nullable() })

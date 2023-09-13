@@ -10,7 +10,6 @@ import {
 import { weddingParamType } from '@wedding/state/schema'
 import {
   type NavigateOptions,
-  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -119,17 +118,4 @@ export const useRemoteUrl = (column = 'uploads') => {
 
     return data.publicUrl
   }
-}
-
-export const useWeddingPath = () => {
-  const { pathname } = useLocation()
-  const [, page] = pathname.split('/').filter(Boolean)
-
-  if (!page.match(/editor|couple/g)) {
-    throw new Error(
-      'Calling `useWeddingPath` outside wedding page is forbidden.'
-    )
-  }
-
-  return page as 'editor' | 'couple'
 }

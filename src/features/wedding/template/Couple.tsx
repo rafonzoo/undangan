@@ -1,22 +1,12 @@
-import { type FC } from '@app/types'
-import { z } from 'zod'
 import { For, createMemo } from 'solid-js'
-import { weddingEntityType, weddingType } from '@wedding/state/schema'
+import { getWedding } from '@wedding/helpers'
 import { css } from '@app/helpers/lib'
-import { useProps } from '@app/helpers/hook'
 import WeddingImage from '@wedding/components/Image'
 
-const templateCoupleType = z.object({
-  template: weddingType.shape.template,
-  entities: weddingEntityType.array(),
-})
-
-const TemplateCouple: FC<typeof templateCoupleType> = (args) => {
-  const { props } = useProps(args, templateCoupleType)
-
+const TemplateCouple = () => {
   const images = createMemo(
     () =>
-    props.entities
+    getWedding('section').intro
       .filter(({ label }) => label.match(/section-intro-[2|3]/))
       .map((section) => section.image)
       .filter(Boolean) // prettier-ignore
@@ -27,16 +17,13 @@ const TemplateCouple: FC<typeof templateCoupleType> = (args) => {
       <For each={images()}>
         {(imgprops, index) => (
           <WeddingImage
-            template={props.template}
-            props={{
-              ...imgprops,
-              orientation: 'portrait',
-              class: {
-                figure: css('w-full', {
-                  '-translate-y-10': index() === 0,
-                  'translate-y-10': index() > 0,
-                }),
-              },
+            {...imgprops}
+            orientation='portrait'
+            class={{
+              figure: css('w-full', {
+                '-translate-y-10': index() === 0,
+                'translate-y-10': index() > 0,
+              }),
             }}
           />
         )}

@@ -1,16 +1,13 @@
 import { weddingParamType, weddingQueryType } from '@wedding/state/schema'
 import { getInvitationQuery } from '@wedding/state/query'
+import { getWeddingPath } from '@wedding/helpers'
 import { dummyGuest } from '@wedding/dummy'
-import {
-  useCommonProps,
-  useQueryParam,
-  useWeddingPath,
-} from '@app/helpers/hook'
+import { useCommonProps, useQueryParam } from '@app/helpers/hook'
 import { clientError, queryError } from '@app/helpers/api'
 import { setter } from '@app/config/store'
 
 export const getInvitationAction = async () => {
-  const page = useWeddingPath()
+  const page = getWeddingPath()
   const { history } = useCommonProps()
   const { query, param } = useQueryParam({
     query: weddingQueryType,

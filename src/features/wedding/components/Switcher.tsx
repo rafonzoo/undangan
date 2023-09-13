@@ -1,8 +1,9 @@
 import { Show, createEffect, createMemo, onCleanup, untrack } from 'solid-js'
 import { weddingParamType, weddingQueryType } from '@wedding/state/schema'
 import { getInvitationAction } from '@wedding/state/action'
+import { getWeddingPath } from '@wedding/helpers'
 import { capitalizer } from '@app/helpers/utils'
-import { useQueryParam, useResource, useWeddingPath } from '@app/helpers/hook'
+import { useQueryParam, useResource } from '@app/helpers/hook'
 import { wedding } from '@app/config/store'
 import WeddingInvitation from '@wedding/components/Invitation'
 
@@ -12,7 +13,7 @@ const WeddingSwitcher = () => {
     query: weddingQueryType,
   })
 
-  const weddingPath = useWeddingPath()
+  const weddingPath = getWeddingPath()
   const current = createMemo(() => wedding[weddingPath].current)
   const column = createMemo(() => (weddingPath === 'couple' ? 'name' : 'wid'))
   const fetchWhen = createMemo(() => {

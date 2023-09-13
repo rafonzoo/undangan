@@ -1,31 +1,31 @@
-import { type FC, type Infer } from '@app/types'
+import { type FC } from '@app/types'
 import { z } from 'zod'
 import { For, createMemo } from 'solid-js'
-import { weddingEntityType, weddingType } from '@wedding/state/schema'
-import { check, entries } from '@app/helpers/utils'
+import {
+  weddingEntityType,
+  weddingSectionDateType,
+} from '@wedding/state/schema'
+import { getWedding } from '@wedding/helpers'
+import { entries } from '@app/helpers/utils'
 import { css } from '@app/helpers/lib'
-import { useProps, useWeddingPath } from '@app/helpers/hook'
-import { wedding } from '@app/config/store'
+import { useProps } from '@app/helpers/hook'
 import TemplateTitle from '@wedding/template/Title'
 import TemplateText from '@wedding/template/Text'
 import TemplateImage from '@wedding/template/Image'
 
 const wedddingSectionEntityType = z.object({
-  data: weddingEntityType.array(),
+  data: weddingEntityType
+    .merge(weddingSectionDateType)
+    .partial({ restrictedTo: true })
+    .array(),
   color: z.string().nullable(),
 })
 
 const WeddingSection = () => {
-  const weddingPath = useWeddingPath()
-
-  const current = <T extends keyof Infer<typeof weddingType>>(key: T) => {
-    return check(weddingType, wedding[weddingPath].current)[key]
-  }
-
   const sections = createMemo(() =>
-    entries(current('section')).map((title) => ({
+    entries(getWedding('section')).map((title) => ({
       title,
-      data: current('section')[title],
+      data: getWedding('section')[title],
       color: (() => {
         // prettier-ignore
         switch (title) {
@@ -44,7 +44,7 @@ const WeddingSection = () => {
 
     return (
       <For each={local.data}>
-        {({ label, image, text }) => (
+        {({ label, image, ...rest }) => (
           <div
             id={label}
             class={css('flex flex-col', {
@@ -52,10 +52,7 @@ const WeddingSection = () => {
             })}
           >
             <TemplateImage label={label} image={image} />
-            <TemplateText
-              template={current('template')}
-              props={{ color: local.color, text }}
-            />
+            <TemplateText color={local.color} {...rest} />
           </div>
         )}
       </For>
@@ -67,14 +64,11 @@ const WeddingSection = () => {
       {({ title, data, color }, index) => (
         <section id={`section-${title}`} class={css('w-full')}>
           <TemplateTitle
-            template={current('template')}
-            props={{
-              title: title,
-              class: css({
-                'mt-32': index() > 0,
-                'mt-20': index() === 0,
-              }),
-            }}
+            title={title}
+            class={css({
+              'mt-32': index() > 0,
+              'mt-20': index() === 0,
+            })}
           />
           <SectionEntities data={data} color={color} />
         </section>
@@ -83,7 +77,7 @@ const WeddingSection = () => {
   )
 
   return (
-    <div class='translate-z-0 relative z-10 bg-white backface-hidden dark:bg-black'>
+    <div class='relative z-10 bg-white translate-z-0 backface-hidden dark:bg-black'>
       <div class='mx-auto max-w-[425px]'>
         <div class='flex flex-col px-6'>
           <Section />

@@ -136,6 +136,7 @@ export const dummyWeddings: Infer<typeof weddingType>[] = [
             body: 'Akad: Sabtu, 23 September 2023 di Gedung Aula Gagak Hitam. Jalan Pesanggrahan Indah No. 11, RT. 10 / RW. 05, Pesanggrahan, Kecamatan Pesanggrahan, Kota Jakarta Selatan, 12320.',
             icon: 'ceremony',
           },
+          restrictedTo: ['family'],
           image: {
             url: '/images/example.jpg',
             orientation: 'landscape',
@@ -150,6 +151,7 @@ export const dummyWeddings: Infer<typeof weddingType>[] = [
         },
         {
           label: 'section-date-2',
+          restrictedTo: [],
           text: {
             body: 'Resepsi: Sabtu, 07 Oktober di Graha SMKN 57 Jakarta. Jalan Taman Margasatwa Raya No. 38B, RT. 12 / RW. 05, Jati Padang, Pasar Minggu, Kota Jakarta Selatan, 12540.',
             icon: 'location',

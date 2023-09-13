@@ -1,28 +1,35 @@
 import { type FC } from '@app/types'
-import { z } from 'zod'
-import { lazy, splitProps } from 'solid-js'
-import { weddingSectionTextType, weddingType } from '@wedding/state/schema'
+import { createMemo, lazy } from 'solid-js'
+import { weddingSectionTextType } from '@wedding/state/schema'
+import { getWedding } from '@wedding/helpers'
 import { css } from '@app/helpers/lib'
 import { useIntersection, useProps } from '@app/helpers/hook'
 import SVGIcon from '@app/components/SVGIcon'
 
-const templateTextType = z.object({
-  template: weddingType.shape.template,
-  props: weddingSectionTextType,
-})
-
-const TemplateText: FC<typeof templateTextType> = (args) => {
-  const [local, text] = splitProps(args, ['template'])
-  const { props } = useProps(text.props, weddingSectionTextType)
+const TemplateText: FC<typeof weddingSectionTextType> = (args) => {
+  const { props } = useProps(args, weddingSectionTextType)
   const { isIntersecting, setElement } = useIntersection({ threshold: 0.25 })
 
-  if (!props.text) {
+  const isForbidden = createMemo(() => {
+    const guest = getWedding('guest')
+    const restrictedTo = props.restrictedTo
+
+    if (!restrictedTo || restrictedTo.length === 0) {
+      return false
+    }
+
+    return !Boolean(
+      guest.match(new RegExp(`\(${restrictedTo.join('|')}\)`, 'i'))
+    )
+  })
+
+  if (!props.text || isForbidden()) {
     return null
   }
 
   const icon = props.text.icon
   const IconComponent = lazy(
-    () => import(`./v1/${local.template}/icon/${icon}.svg`)
+    () => import(`./v1/${getWedding('template')}/icon/${icon}.svg`)
   )
 
   return (
@@ -38,7 +45,10 @@ const TemplateText: FC<typeof templateTextType> = (args) => {
           <IconComponent />
         </SVGIcon>
       </div>
-      <p class='text-lead font-semibold -tracking-lead'>{props.text.body}</p>
+      <p
+        children={props.text.body}
+        class={css('text-lead font-semibold -tracking-lead')}
+      />
     </div>
   )
 }

@@ -1,20 +1,14 @@
 import { type FC } from '@app/types'
-import { z } from 'zod'
-import { lazy, splitProps } from 'solid-js'
-import { weddingImageEntityType, weddingType } from '@wedding/state/schema'
+import { lazy } from 'solid-js'
+import { weddingImageEntityType } from '@wedding/state/schema'
+import { getWedding } from '@wedding/helpers'
 import { useProps } from '@app/helpers/hook'
 
-const weddingImagePropsType = z.object({
-  template: weddingType.shape.template,
-  props: weddingImageEntityType,
-})
-
-const WeddingImage: FC<typeof weddingImagePropsType> = (args) => {
-  const [local, img] = splitProps(args, ['template'])
-  const { props } = useProps(img.props, weddingImageEntityType)
+const WeddingImage: FC<typeof weddingImageEntityType> = (args) => {
+  const { props } = useProps(args, weddingImageEntityType)
 
   const ImageElement: FC<typeof weddingImageEntityType> = lazy(
-    () => import(`../template/v1/${local.template}/Image.tsx`)
+    () => import(`../template/v1/${getWedding('template')}/Image.tsx`)
   )
 
   return <ImageElement {...props} />
